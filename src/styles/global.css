@@ -56,3 +56,84 @@
     letter-spacing: -0.01em;
   }
 }
+
+/*
+  Component classes for the design language adapted from the reference practice
+  (HTML5 UP "Stellar"): a full-viewport banner hero with a rule-flanked title
+  and a scroll cue, plus uppercase, letter-spaced section headings.
+*/
+@layer components {
+  /* Uppercase eyebrow label above a heading. */
+  .eyebrow {
+    text-transform: uppercase;
+    letter-spacing: 0.25em;
+    font-size: 0.75rem;
+    font-weight: 400;
+  }
+
+  /* Section heading: uppercase + tracked, like the reference site. */
+  .section-title {
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    font-weight: 400;
+  }
+
+  /* Full-viewport hero. */
+  .banner {
+    min-height: 100svh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* Hero title flanked by thin horizontal rules (the signature Stellar look). */
+  .banner-title {
+    position: relative;
+    display: inline-block;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    padding: 0.55em 0.2em;
+  }
+  .banner-title::before,
+  .banner-title::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: rgba(255, 255, 255, 0.55);
+  }
+  .banner-title::before { top: 0; }
+  .banner-title::after { bottom: 0; }
+
+  /* Animated scroll-down cue at the bottom of the hero. */
+  .scroll-cue {
+    position: absolute;
+    bottom: 1.75rem;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 1.6rem;
+    height: 1.6rem;
+    border-right: 2px solid rgba(255, 255, 255, 0.7);
+    border-bottom: 2px solid rgba(255, 255, 255, 0.7);
+    rotate: 45deg;
+    animation: scroll-bounce 2s ease-in-out infinite;
+  }
+  @keyframes scroll-bounce {
+    0%, 100% { transform: translateX(-50%) translateY(0); opacity: 0.4; }
+    50% { transform: translateX(-50%) translateY(0.4rem); opacity: 1; }
+  }
+
+  /* Render the multi-colour brand logo as solid white over dark backgrounds. */
+  .logo-on-dark {
+    filter: brightness(0) invert(1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .scroll-cue { animation: none; }
+}

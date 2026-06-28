@@ -12,9 +12,11 @@ import Footer from '../components/Footer.astro';
 interface Props {
   title: string;
   description: string;
+  /** True on pages with a full-screen hero the header overlays. */
+  heroOverlay?: boolean;
 }
 
-const { title, description } = Astro.props;
+const { title, description, heroOverlay = false } = Astro.props;
 ---
 
 <!doctype html>
@@ -30,8 +32,8 @@ const { title, description } = Astro.props;
     <a href="#main" class="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-50 focus:rounded-md focus:bg-brand-green focus:px-4 focus:py-2 focus:text-white">
       Naar de inhoud
     </a>
-    <Header />
-    <main id="main" class="flex-1">
+    <Header overlay={heroOverlay} />
+    <main id="main" class:list={['flex-1', !heroOverlay && 'pt-20']}>
       <slot />
     </main>
     <Footer />

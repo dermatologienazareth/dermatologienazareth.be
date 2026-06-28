@@ -1,89 +1,150 @@
 ---
 /*
-  Home page. The treatments grid is rendered from the `treatments` content
-  collection, which is the end-to-end proof of the CMS -> collection -> page
-  pipeline: editing a file in src/content/treatments (or via Sveltia) updates
-  this section on the next build.
+  Home page, laid out in the style of the reference practice (HTML5 UP
+  "Stellar"): a full-viewport banner hero, alternating spotlight bands, a
+  treatments grid, a practical-info section and a closing contact call to
+  action — all adapted to the Nazareth brand. The treatments grid is rendered
+  from the `treatments` content collection (the CMS -> page proof).
 */
 import { getCollection, getEntry } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
+import Spotlight from '../components/Spotlight.astro';
 import TreatmentCard from '../components/TreatmentCard.astro';
 
 const treatments = (await getCollection('treatments')).sort(
   (a, b) => a.data.order - b.data.order
 );
 
+const doctor = await getEntry('team', 'alicia-bordere');
 const contact = await getEntry('settings', 'contact');
 const c = contact?.data;
+
+// Practical-info items, styled after the reference site's icon section.
+// Placeholder copy — editable later; mirrors the source practice's structure.
+const practical = [
+  {
+    title: 'Op afspraak',
+    body: 'Consultaties verlopen steeds op afspraak. Boek eenvoudig online via onze agenda.',
+  },
+  {
+    title: 'Mee te nemen',
+    body: 'Breng uw identiteitskaart en, indien van toepassing, een verwijsbrief mee.',
+  },
+  {
+    title: 'Betalingen',
+    body: 'Betalen kan met Bancontact of Payconiq. (TODO: definitieve modaliteiten.)',
+  },
+  {
+    title: 'Toegankelijkheid',
+    body: 'De praktijk is vlot bereikbaar en toegankelijk. Vrij parkeren in de buurt.',
+  },
+];
 ---
 
 <BaseLayout
+  heroOverlay
   title="Dermatologie Nazareth — Huidarts in Nazareth"
   description="Dermatologie Nazareth biedt algemene en gespecialiseerde huidzorg in een rustige, professionele omgeving. Maak online een afspraak."
 >
-  <!-- Hero -->
-  <section class="bg-gradient-to-b from-brand-cream to-white">
-    <div class="mx-auto grid max-w-6xl items-center gap-10 px-4 py-16 sm:px-6 md:grid-cols-2 md:py-24">
-      <div>
-        <p class="mb-3 text-sm uppercase tracking-[0.2em] text-brand-pink">Huidarts in Nazareth</p>
-        <h1 class="text-4xl leading-tight text-brand-green sm:text-5xl">
-          Deskundige huidzorg in een rustige, vertrouwde omgeving
-        </h1>
-        <p class="mt-5 max-w-prose text-lg text-brand-green-dark/80">
-          Bij Dermatologie Nazareth kunt u terecht voor onderzoek en behandeling
-          van huid-, haar- en nagelaandoeningen. We nemen de tijd voor een
-          zorgvuldige diagnose en een persoonlijke aanpak.
-        </p>
-        <div class="mt-8 flex flex-wrap gap-3">
-          {
-            c && (
-              <a
-                href={c.bookingUrl}
-                target="_blank"
-                rel="noopener"
-                class="rounded-full bg-brand-green px-7 py-3 text-white transition-colors hover:bg-brand-green-dark"
-              >
-                Afspraak maken
-              </a>
-            )
-          }
-          <a
-            href="/behandelingen"
-            class="rounded-full border border-brand-green/30 px-7 py-3 text-brand-green transition-colors hover:bg-brand-cream"
-          >
-            Onze behandelingen
-          </a>
-        </div>
-      </div>
-
-      <div class="flex justify-center">
-        <img
-          src="/assets/logo.svg"
-          alt="Dermatologie Nazareth"
-          class="w-64 max-w-full sm:w-80"
-          width="320"
-          height="320"
-        />
-      </div>
+  <!-- Banner hero -->
+  <section
+    class="banner text-white"
+    style="background-image: linear-gradient(160deg, #6b7266 0%, #4b5147 100%);"
+  >
+    <!-- Subtle vignette so the white type stays legible. -->
+    <div
+      class="pointer-events-none absolute inset-0"
+      style="background: radial-gradient(120% 120% at 50% 30%, transparent 40%, rgba(0,0,0,0.35) 100%);"
+      aria-hidden="true"
+    >
     </div>
+
+    <div class="relative z-10 flex flex-col items-center px-6">
+      <img
+        src="/assets/logo.svg"
+        alt="Dermatologie Nazareth"
+        class="logo-on-dark mb-8 w-40 sm:w-48"
+        width="200"
+        height="200"
+      />
+      <h1 class="banner-title text-2xl sm:text-3xl">Dermatologie Nazareth</h1>
+      <p class="mt-6 max-w-xl text-base text-white/85 sm:text-lg">
+        Deskundige huidzorg in een rustige, vertrouwde omgeving.
+      </p>
+      {
+        c && (
+          <a
+            href={c.bookingUrl}
+            target="_blank"
+            rel="noopener"
+            class="mt-8 rounded-md bg-white px-7 py-3 text-xs uppercase tracking-widest text-brand-green transition-colors hover:bg-brand-cream"
+          >
+            Afspraak maken
+          </a>
+        )
+      }
+    </div>
+
+    <a href="#welkom" class="scroll-cue" aria-label="Naar de inhoud scrollen"></a>
   </section>
 
-  <!-- Intro / about -->
-  <section class="mx-auto max-w-3xl px-4 py-16 text-center sm:px-6">
-    <h2 class="text-2xl text-brand-green sm:text-3xl">Welkom bij Dermatologie Nazareth</h2>
-    <p class="mt-4 text-brand-green-dark/80">
+  <!-- Intro -->
+  <section id="welkom" class="mx-auto max-w-3xl px-4 py-20 text-center sm:px-6">
+    <p class="eyebrow mb-3 text-brand-pink">Welkom</p>
+    <h2 class="section-title text-2xl text-brand-green sm:text-3xl">
+      Welkom bij Dermatologie Nazareth
+    </h2>
+    <p class="mt-5 text-lg leading-relaxed text-brand-green-dark/80">
       Onze praktijk staat voor toegankelijke en kwalitatieve dermatologische
       zorg. Van algemene huidklachten tot preventieve screening en
       gespecialiseerde behandelingen — u bent bij ons in goede handen.
     </p>
   </section>
 
+  <!-- Spotlight: the doctor (real photo) -->
+  <Spotlight
+    eyebrow="Uw huidarts"
+    title={doctor?.data.name ?? 'Dr. Alicia Borderé'}
+    image={doctor?.data.photo}
+    imageAlt={doctor?.data.name ?? 'Dr. Alicia Borderé'}
+    tone="cream"
+    ctaLabel="Maak kennis met de praktijk"
+    ctaHref="/praktijk"
+  >
+    <p>
+      Dr. Alicia Borderé is dermatoloog met een bijzondere interesse voor naevi
+      (moedervlekken) en acne. Zij voert kleine ingrepen en laserbehandelingen
+      uit.
+    </p>
+    <p class="text-sm text-brand-green-dark/60">
+      (TODO: vervang door de definitieve bio en praktijkbeschrijving.)
+    </p>
+  </Spotlight>
+
+  <!-- Spotlight: the practice (placeholder image, reversed) -->
+  <Spotlight
+    eyebrow="De praktijk"
+    title="Een rustige, verzorgde omgeving"
+    reverse
+    ctaLabel="Bekijk de behandelingen"
+    ctaHref="/behandelingen"
+  >
+    <p>
+      Bij Dermatologie Nazareth nemen we de tijd voor een zorgvuldige diagnose
+      en een persoonlijke aanpak. De praktijk is modern uitgerust en vlot
+      bereikbaar.
+    </p>
+    <p class="text-sm text-brand-green-dark/60">
+      (TODO: voeg een sfeerfoto van de praktijk toe via de CMS.)
+    </p>
+  </Spotlight>
+
   <!-- Treatments grid (sourced from the content collection) -->
-  <section class="bg-brand-cream/60 py-16">
+  <section class="bg-white py-20">
     <div class="mx-auto max-w-6xl px-4 sm:px-6">
-      <div class="mb-10 text-center">
-        <h2 class="text-2xl text-brand-green sm:text-3xl">Behandelingen</h2>
-        <p class="mt-3 text-brand-green-dark/70">Een greep uit ons aanbod.</p>
+      <div class="mb-12 text-center">
+        <p class="eyebrow mb-3 text-brand-pink">Aanbod</p>
+        <h2 class="section-title text-2xl text-brand-green sm:text-3xl">Behandelingen</h2>
       </div>
 
       <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
@@ -94,40 +155,58 @@ const c = contact?.data;
         }
       </div>
 
-      <div class="mt-10 text-center">
-        <a href="/behandelingen" class="text-brand-green underline-offset-4 hover:underline">
-          Bekijk alle behandelingen →
+      <div class="mt-12 text-center">
+        <a
+          href="/behandelingen"
+          class="inline-block rounded-md border border-brand-green/30 px-7 py-3 text-xs uppercase tracking-widest text-brand-green transition-colors hover:bg-brand-green hover:text-white"
+        >
+          Alle behandelingen
         </a>
       </div>
     </div>
   </section>
 
-  <!-- Contact strip -->
+  <!-- Practical info (dark band with item grid, like the reference site) -->
+  <section class="bg-brand-green text-white">
+    <div class="mx-auto max-w-6xl px-4 py-20 sm:px-6">
+      <div class="mb-12 text-center">
+        <p class="eyebrow mb-3 text-brand-pink-soft/90">Goed om te weten</p>
+        <h2 class="section-title text-2xl sm:text-3xl">Praktische info</h2>
+      </div>
+      <div class="grid gap-10 sm:grid-cols-2 lg:grid-cols-4">
+        {
+          practical.map((item) => (
+            <div class="text-center">
+              <h3 class="text-base uppercase tracking-wider text-white">{item.title}</h3>
+              <p class="mt-3 text-sm leading-relaxed text-white/75">{item.body}</p>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- Closing contact CTA -->
   {
     c && (
-      <section class="mx-auto max-w-6xl px-4 py-16 sm:px-6">
-        <div class="grid items-center gap-6 rounded-3xl bg-brand-green px-8 py-10 text-white md:grid-cols-2">
-          <div>
-            <h2 class="text-2xl">Een afspraak maken?</h2>
-            <p class="mt-2 text-white/85">
-              Boek eenvoudig online via onze externe agenda of bel ons op{' '}
-              <a href={`tel:${c.phone.replace(/\s/g, '')}`} class="underline">
-                {c.phone}
-              </a>
-              .
-            </p>
-          </div>
-          <div class="md:text-right">
-            <a
-              href={c.bookingUrl}
-              target="_blank"
-              rel="noopener"
-              class="inline-block rounded-full bg-white px-7 py-3 text-brand-green transition-colors hover:bg-brand-cream"
-            >
-              Afspraak maken
-            </a>
-          </div>
-        </div>
+      <section class="mx-auto max-w-4xl px-4 py-20 text-center sm:px-6">
+        <p class="eyebrow mb-3 text-brand-pink">Contact</p>
+        <h2 class="section-title text-2xl text-brand-green sm:text-3xl">Een afspraak maken?</h2>
+        <p class="mt-5 text-brand-green-dark/80">
+          Boek eenvoudig online via onze externe agenda of bel ons op{' '}
+          <a href={`tel:${c.phone.replace(/\s/g, '')}`} class="text-brand-green underline-offset-4 hover:underline">
+            {c.phone}
+          </a>
+          .
+        </p>
+        <a
+          href={c.bookingUrl}
+          target="_blank"
+          rel="noopener"
+          class="mt-8 inline-block rounded-md bg-brand-green px-8 py-3 text-xs uppercase tracking-widest text-white transition-colors hover:bg-brand-green-dark"
+        >
+          Afspraak maken
+        </a>
       </section>
     )
   }

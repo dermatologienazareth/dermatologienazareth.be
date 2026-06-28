@@ -1,7 +1,7 @@
 ---
 /*
-  Footer with practice contact details and opening hours, all sourced from the
-  settings singleton so the client manages them through the CMS.
+  Dark footer band with practice contact details and opening hours, all sourced
+  from the settings singleton so the client manages them through the CMS.
 */
 import { getEntry } from 'astro:content';
 
@@ -10,24 +10,24 @@ const c = contact?.data;
 const year = new Date().getFullYear();
 ---
 
-<footer class="mt-20 border-t border-brand-pink-soft bg-brand-cream">
-  <div class="mx-auto grid max-w-6xl gap-10 px-4 py-12 sm:px-6 md:grid-cols-3">
+<footer class="bg-brand-green-dark text-white">
+  <div class="mx-auto grid max-w-6xl gap-10 px-4 py-16 sm:px-6 md:grid-cols-3">
     <div>
-      <img src="/assets/logo.svg" alt="Dermatologie Nazareth" class="h-20 w-auto" width="200" height="200" />
+      <img src="/assets/logo.svg" alt="Dermatologie Nazareth" class="logo-on-dark h-20 w-auto" width="200" height="200" />
     </div>
 
     {
       c && (
         <div>
-          <h2 class="mb-3 text-base text-brand-green">Contact</h2>
-          <address class="space-y-1 text-sm not-italic text-brand-green-dark/80">
+          <h2 class="mb-4 text-sm uppercase tracking-widest text-brand-pink-soft/90">Contact</h2>
+          <address class="space-y-1 text-sm not-italic text-white/75">
             <p>{c.addressLine}</p>
             <p>{c.postalCode} {c.city}</p>
             <p>
-              <a href={`tel:${c.phone.replace(/\s/g, '')}`} class="hover:text-brand-green">{c.phone}</a>
+              <a href={`tel:${c.phone.replace(/\s/g, '')}`} class="hover:text-white">{c.phone}</a>
             </p>
             <p>
-              <a href={`mailto:${c.email}`} class="hover:text-brand-green">{c.email}</a>
+              <a href={`mailto:${c.email}`} class="hover:text-white">{c.email}</a>
             </p>
           </address>
         </div>
@@ -37,8 +37,8 @@ const year = new Date().getFullYear();
     {
       c && (
         <div>
-          <h2 class="mb-3 text-base text-brand-green">Openingsuren</h2>
-          <ul class="space-y-1 text-sm text-brand-green-dark/80">
+          <h2 class="mb-4 text-sm uppercase tracking-widest text-brand-pink-soft/90">Openingsuren</h2>
+          <ul class="space-y-1 text-sm text-white/75">
             {c.openingHours.map((row) => (
               <li class="flex justify-between gap-4">
                 <span>{row.day}</span>
@@ -51,8 +51,8 @@ const year = new Date().getFullYear();
     }
   </div>
 
-  <div class="border-t border-brand-pink-soft">
-    <p class="mx-auto max-w-6xl px-4 py-4 text-center text-xs text-brand-green-dark/60 sm:px-6">
+  <div class="border-t border-white/10">
+    <p class="mx-auto max-w-6xl px-4 py-5 text-center text-xs text-white/50 sm:px-6">
       © {year} {c?.practiceName ?? 'Dermatologie Nazareth'}. Alle rechten voorbehouden.
     </p>
   </div>

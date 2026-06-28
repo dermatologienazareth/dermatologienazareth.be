@@ -1,0 +1,83 @@
+---
+/*
+  Alternating full-width "spotlight" band: an image on one side and text on the
+  other, with the sides flipping per section (the reference site's core layout
+  device). When no image is supplied a calm brand-tinted panel is shown so the
+  rhythm holds before photos are added via the CMS.
+*/
+interface Props {
+  eyebrow?: string;
+  title: string;
+  image?: string;
+  imageAlt?: string;
+  /** Flip the image to the right. */
+  reverse?: boolean;
+  /** Section background tone. */
+  tone?: 'white' | 'cream';
+  ctaLabel?: string;
+  ctaHref?: string;
+}
+
+const {
+  eyebrow,
+  title,
+  image,
+  imageAlt = '',
+  reverse = false,
+  tone = 'white',
+  ctaLabel,
+  ctaHref,
+} = Astro.props;
+
+const bg = tone === 'cream' ? 'bg-brand-cream/60' : 'bg-white';
+---
+
+<section class={`${bg}`}>
+  <div
+    class:list={[
+      'mx-auto grid max-w-6xl items-center gap-10 px-4 py-16 sm:px-6 md:grid-cols-2 md:gap-14 md:py-24',
+    ]}
+  >
+    <!-- Image / placeholder -->
+    <div class:list={[reverse ? 'md:order-2' : 'md:order-1']}>
+      {
+        image ? (
+          <img
+            src={image}
+            alt={imageAlt}
+            class="aspect-[4/5] w-full rounded-2xl object-cover shadow-sm sm:aspect-[4/3] md:aspect-[4/5]"
+            loading="lazy"
+          />
+        ) : (
+          <div
+            class="flex aspect-[4/3] w-full items-center justify-center rounded-2xl bg-gradient-to-br from-brand-pink-soft to-brand-pink/40 md:aspect-[4/5]"
+            aria-hidden="true"
+          >
+            <svg class="h-12 w-12 text-brand-green/40" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.4">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909M3.75 19.5h16.5a1.5 1.5 0 001.5-1.5V6a1.5 1.5 0 00-1.5-1.5H3.75A1.5 1.5 0 002.25 6v12a1.5 1.5 0 001.5 1.5z" />
+            </svg>
+          </div>
+        )
+      }
+    </div>
+
+    <!-- Content -->
+    <div class:list={[reverse ? 'md:order-1' : 'md:order-2']}>
+      {eyebrow && <p class="eyebrow mb-3 text-brand-pink">{eyebrow}</p>}
+      <h2 class="section-title text-2xl text-brand-green sm:text-3xl">{title}</h2>
+      <div class="mt-5 space-y-4 text-brand-green-dark/80">
+        <slot />
+      </div>
+      {
+        ctaLabel && ctaHref && (
+          <a
+            href={ctaHref}
+            class="mt-7 inline-block rounded-md border border-brand-green/30 px-6 py-3 text-sm uppercase tracking-wider text-brand-green transition-colors hover:bg-brand-green hover:text-white"
+          >
+            {ctaLabel}
+          </a>
+        )
+      }
+    </div>
+  </div>
+</section>

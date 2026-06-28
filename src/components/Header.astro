@@ -1,12 +1,16 @@
 ---
 /*
-  Site header: brand logo, primary Dutch navigation and a prominent
-  "Afspraak maken" call-to-action that links to the external agenda provider
-  (bookingUrl from the settings singleton, same model as the source practice).
-  The mobile menu is a progressively-enhanced disclosure toggled by a small
-  inline script; navigation links work without JS.
+  Site header. On pages with a full-screen hero (overlay=true) it sits
+  transparently over the banner with a white logo and links, then turns solid
+  white once the user scrolls past the hero (toggled by a small scroll script).
+  On other pages it is solid from the start. Navigation works without JS.
 */
 import { getEntry } from 'astro:content';
+
+interface Props {
+  overlay?: boolean;
+}
+const { overlay = false } = Astro.props;
 
 const nav = [
   { label: 'Home', href: '/' },
@@ -21,10 +25,23 @@ const contact = await getEntry('settings', 'contact');
 const bookingUrl = contact?.data.bookingUrl ?? '#';
 ---
 
-<header class="sticky top-0 z-40 border-b border-brand-pink-soft bg-white/90 backdrop-blur">
+<header
+  id="site-header"
+  data-overlay={overlay ? '' : undefined}
+  class:list={[
+    'fixed inset-x-0 top-0 z-40 transition-colors duration-300',
+    overlay ? 'bg-transparent text-white' : 'border-b border-brand-pink-soft bg-white/95 text-brand-green-dark backdrop-blur',
+  ]}
+>
   <nav class="mx-auto flex max-w-6xl items-center justify-between gap-4 px-4 py-3 sm:px-6">
     <a href="/" class="flex items-center" aria-label="Dermatologie Nazareth — home">
-      <img src="/assets/logo.svg" alt="Dermatologie Nazareth" class="h-14 w-auto" width="200" height="200" />
+      <img
+        src="/assets/logo.svg"
+        alt="Dermatologie Nazareth"
+        class:list={['h-12 w-auto transition-[filter] duration-300', overlay && 'logo-on-dark']}
+        width="200"
+        height="200"
+      />
     </a>
 
     <!-- Desktop navigation -->
@@ -38,8 +55,8 @@ const bookingUrl = contact?.data.bookingUrl ?? '#';
                 href={item.href}
                 aria-current={active ? 'page' : undefined}
                 class:list={[
-                  'text-sm tracking-wide transition-colors hover:text-brand-green',
-                  active ? 'text-brand-green' : 'text-brand-green-dark/80',
+                  'text-xs uppercase tracking-widest transition-opacity hover:opacity-100',
+                  active ? 'opacity-100' : 'opacity-75',
                 ]}
               >
                 {item.label}
@@ -55,7 +72,12 @@ const bookingUrl = contact?.data.bookingUrl ?? '#';
         href={bookingUrl}
         target="_blank"
         rel="noopener"
-        class="hidden rounded-full bg-brand-green px-5 py-2 text-sm font-normal text-white transition-colors hover:bg-brand-green-dark sm:inline-block"
+        class:list={[
+          'hidden rounded-md px-5 py-2 text-xs uppercase tracking-widest transition-colors sm:inline-block',
+          overlay
+            ? 'border border-white/60 hover:bg-white hover:text-brand-green'
+            : 'bg-brand-green text-white hover:bg-brand-green-dark',
+        ]}
       >
         Afspraak maken
       </a>
@@ -64,7 +86,7 @@ const bookingUrl = contact?.data.bookingUrl ?? '#';
       <button
         type="button"
         id="menu-toggle"
-        class="inline-flex items-center justify-center rounded-md p-2 text-brand-green-dark md:hidden"
+        class="inline-flex items-center justify-center rounded-md p-2 md:hidden"
         aria-controls="mobile-menu"
         aria-expanded="false"
       >
@@ -77,12 +99,12 @@ const bookingUrl = contact?.data.bookingUrl ?? '#';
   </nav>
 
   <!-- Mobile navigation panel -->
-  <div id="mobile-menu" class="hidden border-t border-brand-pink-soft md:hidden">
+  <div id="mobile-menu" class="hidden border-t border-brand-pink-soft bg-white text-brand-green-dark md:hidden">
     <ul class="mx-auto max-w-6xl space-y-1 px-4 py-3 sm:px-6">
       {
         nav.map((item) => (
           <li>
-            <a href={item.href} class="block rounded-md px-2 py-2 text-brand-green-dark hover:bg-brand-cream">
+            <a href={item.href} class="block rounded-md px-2 py-2 hover:bg-brand-cream">
               {item.label}
             </a>
           </li>
@@ -93,7 +115,7 @@ const bookingUrl = contact?.data.bookingUrl ?? '#';
           href={bookingUrl}
           target="_blank"
           rel="noopener"
-          class="mt-2 block rounded-full bg-brand-green px-5 py-2 text-center text-white"
+          class="mt-2 block rounded-md bg-brand-green px-5 py-2 text-center text-white"
         >
           Afspraak maken
         </a>
@@ -103,12 +125,35 @@ const bookingUrl = contact?.data.bookingUrl ?? '#';
 </header>
 
 <script>
-  // Progressive enhancement: toggle the mobile menu and reflect state on the
-  // button for assistive technologies.
+  // Mobile menu disclosure.
   const toggle = document.getElementById('menu-toggle');
   const menu = document.getElementById('mobile-menu');
   toggle?.addEventListener('click', () => {
     const open = menu?.classList.toggle('hidden') === false;
     toggle.setAttribute('aria-expanded', String(open));
   });
+
+  // On hero-overlay pages, swap the header to solid once scrolled past the top.
+  const header = document.getElementById('site-header');
+  if (header?.hasAttribute('data-overlay')) {
+    const logo = header.querySelector('img');
+    const cta = header.querySelector('a[rel="noopener"]');
+    const onScroll = () => {
+      const solid = window.scrollY > 60;
+      header.classList.toggle('bg-transparent', !solid);
+      header.classList.toggle('text-white', !solid);
+      header.classList.toggle('bg-white/95', solid);
+      header.classList.toggle('backdrop-blur', solid);
+      header.classList.toggle('text-brand-green-dark', solid);
+      header.classList.toggle('shadow-sm', solid);
+      logo?.classList.toggle('logo-on-dark', !solid);
+      // CTA style flips between outlined-on-dark and filled-green.
+      cta?.classList.toggle('border', !solid);
+      cta?.classList.toggle('border-white/60', !solid);
+      cta?.classList.toggle('bg-brand-green', solid);
+      cta?.classList.toggle('text-white', solid);
+    };
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+  }
 </script>
