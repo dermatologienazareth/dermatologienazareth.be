@@ -1,0 +1,17 @@
+{
+  "practiceName": "Dermatologie Nazareth",
+  "addressLine": "TODO: Straat en nummer",
+  "postalCode": "9810",
+  "city": "Nazareth",
+  "phone": "TODO: 09 000 00 00",
+  "email": "info@dermatologienazareth.be",
+  "bookingUrl": "https://example.com/afspraak-todo",
+  "openingHours": [
+    { "day": "Maandag", "hours": "09:00 – 17:00" },
+    { "day": "Dinsdag", "hours": "09:00 – 17:00" },
+    { "day": "Woensdag", "hours": "09:00 – 12:00" },
+    { "day": "Donderdag", "hours": "09:00 – 17:00" },
+    { "day": "Vrijdag", "hours": "09:00 – 16:00" },
+    { "day": "Zaterdag – Zondag", "hours": "Gesloten" }
+  ]
+}

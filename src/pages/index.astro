@@ -1,0 +1,134 @@
+---
+/*
+  Home page. The treatments grid is rendered from the `treatments` content
+  collection, which is the end-to-end proof of the CMS -> collection -> page
+  pipeline: editing a file in src/content/treatments (or via Sveltia) updates
+  this section on the next build.
+*/
+import { getCollection, getEntry } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import TreatmentCard from '../components/TreatmentCard.astro';
+
+const treatments = (await getCollection('treatments')).sort(
+  (a, b) => a.data.order - b.data.order
+);
+
+const contact = await getEntry('settings', 'contact');
+const c = contact?.data;
+---
+
+<BaseLayout
+  title="Dermatologie Nazareth — Huidarts in Nazareth"
+  description="Dermatologie Nazareth biedt algemene en gespecialiseerde huidzorg in een rustige, professionele omgeving. Maak online een afspraak."
+>
+  <!-- Hero -->
+  <section class="bg-gradient-to-b from-brand-cream to-white">
+    <div class="mx-auto grid max-w-6xl items-center gap-10 px-4 py-16 sm:px-6 md:grid-cols-2 md:py-24">
+      <div>
+        <p class="mb-3 text-sm uppercase tracking-[0.2em] text-brand-pink">Huidarts in Nazareth</p>
+        <h1 class="text-4xl leading-tight text-brand-green sm:text-5xl">
+          Deskundige huidzorg in een rustige, vertrouwde omgeving
+        </h1>
+        <p class="mt-5 max-w-prose text-lg text-brand-green-dark/80">
+          Bij Dermatologie Nazareth kunt u terecht voor onderzoek en behandeling
+          van huid-, haar- en nagelaandoeningen. We nemen de tijd voor een
+          zorgvuldige diagnose en een persoonlijke aanpak.
+        </p>
+        <div class="mt-8 flex flex-wrap gap-3">
+          {
+            c && (
+              <a
+                href={c.bookingUrl}
+                target="_blank"
+                rel="noopener"
+                class="rounded-full bg-brand-green px-7 py-3 text-white transition-colors hover:bg-brand-green-dark"
+              >
+                Afspraak maken
+              </a>
+            )
+          }
+          <a
+            href="/behandelingen"
+            class="rounded-full border border-brand-green/30 px-7 py-3 text-brand-green transition-colors hover:bg-brand-cream"
+          >
+            Onze behandelingen
+          </a>
+        </div>
+      </div>
+
+      <div class="flex justify-center">
+        <img
+          src="/assets/logo.svg"
+          alt="Dermatologie Nazareth"
+          class="w-64 max-w-full sm:w-80"
+          width="320"
+          height="320"
+        />
+      </div>
+    </div>
+  </section>
+
+  <!-- Intro / about -->
+  <section class="mx-auto max-w-3xl px-4 py-16 text-center sm:px-6">
+    <h2 class="text-2xl text-brand-green sm:text-3xl">Welkom bij Dermatologie Nazareth</h2>
+    <p class="mt-4 text-brand-green-dark/80">
+      Onze praktijk staat voor toegankelijke en kwalitatieve dermatologische
+      zorg. Van algemene huidklachten tot preventieve screening en
+      gespecialiseerde behandelingen — u bent bij ons in goede handen.
+    </p>
+  </section>
+
+  <!-- Treatments grid (sourced from the content collection) -->
+  <section class="bg-brand-cream/60 py-16">
+    <div class="mx-auto max-w-6xl px-4 sm:px-6">
+      <div class="mb-10 text-center">
+        <h2 class="text-2xl text-brand-green sm:text-3xl">Behandelingen</h2>
+        <p class="mt-3 text-brand-green-dark/70">Een greep uit ons aanbod.</p>
+      </div>
+
+      <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        {
+          treatments.map((t) => (
+            <TreatmentCard title={t.data.title} summary={t.data.summary} image={t.data.image} />
+          ))
+        }
+      </div>
+
+      <div class="mt-10 text-center">
+        <a href="/behandelingen" class="text-brand-green underline-offset-4 hover:underline">
+          Bekijk alle behandelingen →
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact strip -->
+  {
+    c && (
+      <section class="mx-auto max-w-6xl px-4 py-16 sm:px-6">
+        <div class="grid items-center gap-6 rounded-3xl bg-brand-green px-8 py-10 text-white md:grid-cols-2">
+          <div>
+            <h2 class="text-2xl">Een afspraak maken?</h2>
+            <p class="mt-2 text-white/85">
+              Boek eenvoudig online via onze externe agenda of bel ons op{' '}
+              <a href={`tel:${c.phone.replace(/\s/g, '')}`} class="underline">
+                {c.phone}
+              </a>
+              .
+            </p>
+          </div>
+          <div class="md:text-right">
+            <a
+              href={c.bookingUrl}
+              target="_blank"
+              rel="noopener"
+              class="inline-block rounded-full bg-white px-7 py-3 text-brand-green transition-colors hover:bg-brand-cream"
+            >
+              Afspraak maken
+            </a>
+          </div>
+        </div>
+      </section>
+    )
+  }
+</BaseLayout>

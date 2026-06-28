@@ -1,0 +1,58 @@
+@import "tailwindcss";
+
+/*
+  Local Gotham Rounded webfonts (converted OTF -> woff2).
+  NOTE: Gotham Rounded is a commercial Hoefler&Co typeface. Self-hosting as a
+  webfont requires a webfont license separate from the desktop OTF license —
+  confirm the practice holds web rights before go-live, or swap for a free
+  near-match (e.g. Nunito / Quicksand) by changing the @theme font vars below.
+*/
+@font-face {
+  font-family: "Gotham Rounded";
+  src: url("/fonts/gotham-rounded-light.woff2") format("woff2");
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Gotham Rounded";
+  src: url("/fonts/gotham-rounded-book.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+/*
+  Brand design tokens. Exposing them through Tailwind's @theme generates
+  matching utilities automatically (bg-brand-green, text-brand-pink,
+  font-display, etc.) so components stay declarative.
+*/
+@theme {
+  --color-brand-green: #60675b;
+  --color-brand-green-dark: #4b5147;
+  --color-brand-pink: #d7b0b2;
+  --color-brand-pink-soft: #f3e6e6;
+  --color-brand-cream: #faf8f6;
+
+  --font-sans: "Gotham Rounded", ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --font-display: "Gotham Rounded", ui-sans-serif, system-ui, sans-serif;
+}
+
+/* Base element defaults that aren't worth repeating on every component. */
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+  }
+  body {
+    font-family: var(--font-sans);
+    font-weight: 300;
+    color: var(--color-brand-green-dark);
+    background-color: #ffffff;
+  }
+  h1, h2, h3, h4 {
+    font-family: var(--font-display);
+    font-weight: 400;
+    letter-spacing: -0.01em;
+  }
+}

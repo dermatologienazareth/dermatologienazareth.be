@@ -1,0 +1,59 @@
+---
+/*
+  Footer with practice contact details and opening hours, all sourced from the
+  settings singleton so the client manages them through the CMS.
+*/
+import { getEntry } from 'astro:content';
+
+const contact = await getEntry('settings', 'contact');
+const c = contact?.data;
+const year = new Date().getFullYear();
+---
+
+<footer class="mt-20 border-t border-brand-pink-soft bg-brand-cream">
+  <div class="mx-auto grid max-w-6xl gap-10 px-4 py-12 sm:px-6 md:grid-cols-3">
+    <div>
+      <img src="/assets/logo.svg" alt="Dermatologie Nazareth" class="h-20 w-auto" width="200" height="200" />
+    </div>
+
+    {
+      c && (
+        <div>
+          <h2 class="mb-3 text-base text-brand-green">Contact</h2>
+          <address class="space-y-1 text-sm not-italic text-brand-green-dark/80">
+            <p>{c.addressLine}</p>
+            <p>{c.postalCode} {c.city}</p>
+            <p>
+              <a href={`tel:${c.phone.replace(/\s/g, '')}`} class="hover:text-brand-green">{c.phone}</a>
+            </p>
+            <p>
+              <a href={`mailto:${c.email}`} class="hover:text-brand-green">{c.email}</a>
+            </p>
+          </address>
+        </div>
+      )
+    }
+
+    {
+      c && (
+        <div>
+          <h2 class="mb-3 text-base text-brand-green">Openingsuren</h2>
+          <ul class="space-y-1 text-sm text-brand-green-dark/80">
+            {c.openingHours.map((row) => (
+              <li class="flex justify-between gap-4">
+                <span>{row.day}</span>
+                <span>{row.hours}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )
+    }
+  </div>
+
+  <div class="border-t border-brand-pink-soft">
+    <p class="mx-auto max-w-6xl px-4 py-4 text-center text-xs text-brand-green-dark/60 sm:px-6">
+      © {year} {c?.practiceName ?? 'Dermatologie Nazareth'}. Alle rechten voorbehouden.
+    </p>
+  </div>
+</footer>

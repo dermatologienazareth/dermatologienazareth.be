@@ -1,0 +1,55 @@
+---
+/*
+  Centralised <head> metadata: title, description, canonical, Open Graph and a
+  MedicalClinic JSON-LD stub for richer search results. Pages pass a title and
+  description; everything else derives from the site config.
+*/
+import { getEntry } from 'astro:content';
+
+interface Props {
+  title: string;
+  description: string;
+  /** Path-relative OG image; defaults to the brand logo. */
+  image?: string;
+}
+
+const { title, description, image = '/assets/logo.png' } = Astro.props;
+
+const canonical = new URL(Astro.url.pathname, Astro.site).href;
+const imageUrl = new URL(image, Astro.site).href;
+
+const contact = await getEntry('settings', 'contact');
+const c = contact?.data;
+
+const jsonLd = c
+  ? {
+      '@context': 'https://schema.org',
+      '@type': 'MedicalClinic',
+      name: c.practiceName,
+      url: Astro.site?.href,
+      telephone: c.phone,
+      email: c.email,
+      address: {
+        '@type': 'PostalAddress',
+        streetAddress: c.addressLine,
+        postalCode: c.postalCode,
+        addressLocality: c.city,
+        addressCountry: 'BE',
+      },
+    }
+  : null;
+---
+
+<title>{title}</title>
+<meta name="description" content={description} />
+<link rel="canonical" href={canonical} />
+
+<meta property="og:type" content="website" />
+<meta property="og:title" content={title} />
+<meta property="og:description" content={description} />
+<meta property="og:url" content={canonical} />
+<meta property="og:image" content={imageUrl} />
+<meta property="og:locale" content="nl_BE" />
+<meta name="twitter:card" content="summary_large_image" />
+
+{jsonLd && <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />}

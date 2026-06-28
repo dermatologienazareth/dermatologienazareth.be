@@ -1,0 +1,114 @@
+---
+/*
+  Site header: brand logo, primary Dutch navigation and a prominent
+  "Afspraak maken" call-to-action that links to the external agenda provider
+  (bookingUrl from the settings singleton, same model as the source practice).
+  The mobile menu is a progressively-enhanced disclosure toggled by a small
+  inline script; navigation links work without JS.
+*/
+import { getEntry } from 'astro:content';
+
+const nav = [
+  { label: 'Home', href: '/' },
+  { label: 'Behandelingen', href: '/behandelingen' },
+  { label: 'Praktijk', href: '/praktijk' },
+  { label: 'Contact', href: '/contact' },
+];
+
+const current = Astro.url.pathname.replace(/\/$/, '') || '/';
+
+const contact = await getEntry('settings', 'contact');
+const bookingUrl = contact?.data.bookingUrl ?? '#';
+---
+
+<header class="sticky top-0 z-40 border-b border-brand-pink-soft bg-white/90 backdrop-blur">
+  <nav class="mx-auto flex max-w-6xl items-center justify-between gap-4 px-4 py-3 sm:px-6">
+    <a href="/" class="flex items-center" aria-label="Dermatologie Nazareth — home">
+      <img src="/assets/logo.svg" alt="Dermatologie Nazareth" class="h-14 w-auto" width="200" height="200" />
+    </a>
+
+    <!-- Desktop navigation -->
+    <ul class="hidden items-center gap-8 md:flex">
+      {
+        nav.map((item) => {
+          const active = current === item.href.replace(/\/$/, '');
+          return (
+            <li>
+              <a
+                href={item.href}
+                aria-current={active ? 'page' : undefined}
+                class:list={[
+                  'text-sm tracking-wide transition-colors hover:text-brand-green',
+                  active ? 'text-brand-green' : 'text-brand-green-dark/80',
+                ]}
+              >
+                {item.label}
+              </a>
+            </li>
+          );
+        })
+      }
+    </ul>
+
+    <div class="flex items-center gap-2">
+      <a
+        href={bookingUrl}
+        target="_blank"
+        rel="noopener"
+        class="hidden rounded-full bg-brand-green px-5 py-2 text-sm font-normal text-white transition-colors hover:bg-brand-green-dark sm:inline-block"
+      >
+        Afspraak maken
+      </a>
+
+      <!-- Mobile menu toggle -->
+      <button
+        type="button"
+        id="menu-toggle"
+        class="inline-flex items-center justify-center rounded-md p-2 text-brand-green-dark md:hidden"
+        aria-controls="mobile-menu"
+        aria-expanded="false"
+      >
+        <span class="sr-only">Menu openen</span>
+        <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5M3.75 17.25h16.5" />
+        </svg>
+      </button>
+    </div>
+  </nav>
+
+  <!-- Mobile navigation panel -->
+  <div id="mobile-menu" class="hidden border-t border-brand-pink-soft md:hidden">
+    <ul class="mx-auto max-w-6xl space-y-1 px-4 py-3 sm:px-6">
+      {
+        nav.map((item) => (
+          <li>
+            <a href={item.href} class="block rounded-md px-2 py-2 text-brand-green-dark hover:bg-brand-cream">
+              {item.label}
+            </a>
+          </li>
+        ))
+      }
+      <li>
+        <a
+          href={bookingUrl}
+          target="_blank"
+          rel="noopener"
+          class="mt-2 block rounded-full bg-brand-green px-5 py-2 text-center text-white"
+        >
+          Afspraak maken
+        </a>
+      </li>
+    </ul>
+  </div>
+</header>
+
+<script>
+  // Progressive enhancement: toggle the mobile menu and reflect state on the
+  // button for assistive technologies.
+  const toggle = document.getElementById('menu-toggle');
+  const menu = document.getElementById('mobile-menu');
+  toggle?.addEventListener('click', () => {
+    const open = menu?.classList.toggle('hidden') === false;
+    toggle.setAttribute('aria-expanded', String(open));
+  });
+</script>
