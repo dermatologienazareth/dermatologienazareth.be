@@ -8,6 +8,7 @@ import '../styles/global.css';
 import Seo from '../components/Seo.astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
+import Announcement from '../components/Announcement.astro';
 
 interface Props {
   title: string;
@@ -37,5 +38,6 @@ const { title, description, heroOverlay = false } = Astro.props;
       <slot />
     </main>
     <Footer />
+    <Announcement />
   </body>
 </html>

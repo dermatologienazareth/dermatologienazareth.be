@@ -3,9 +3,10 @@
   "addressLine": "TODO: Straat en nummer",
   "postalCode": "9810",
   "city": "Nazareth",
-  "phone": "TODO: 09 000 00 00",
-  "email": "info@dermatologienazareth.be",
-  "bookingUrl": "https://example.com/afspraak-todo",
+  "phone": "09 385 67 82",
+  "phoneNote": "praktijk De Pinte",
+  "email": "TODO: info@dermatologienazareth.be",
+  "bookingUrl": "",
   "openingHours": [
     { "day": "Maandag", "hours": "09:00 – 17:00" },
     { "day": "Dinsdag", "hours": "09:00 – 17:00" },

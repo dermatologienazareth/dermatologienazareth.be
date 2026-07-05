@@ -1,6 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { paragraphs } from './text.ts';
+import { isEmail, paragraphs, telHref } from './text.ts';
 
 test('splits on a blank line', () => {
   assert.deepEqual(paragraphs('een\n\ntwee'), ['een', 'twee']);
@@ -25,4 +25,23 @@ test('trims surrounding whitespace', () => {
 test('empty or blank input gives no paragraphs', () => {
   assert.deepEqual(paragraphs(''), []);
   assert.deepEqual(paragraphs('\n\n  \n'), []);
+});
+
+test('telHref strips spaces, slashes and dots', () => {
+  assert.equal(telHref('09 385 67 82'), 'tel:093856782');
+  assert.equal(telHref('09/385.67.82'), 'tel:093856782');
+});
+
+test('telHref keeps a leading + for international numbers', () => {
+  assert.equal(telHref('+32 9 385 67 82'), 'tel:+3293856782');
+});
+
+test('isEmail accepts a real address', () => {
+  assert.equal(isEmail('info@dermatologienazareth.be'), true);
+});
+
+test('isEmail rejects TODO placeholders and blanks', () => {
+  assert.equal(isEmail('TODO: info@dermatologienazareth.be'), false);
+  assert.equal(isEmail(''), false);
+  assert.equal(isEmail('info at praktijk'), false);
 });

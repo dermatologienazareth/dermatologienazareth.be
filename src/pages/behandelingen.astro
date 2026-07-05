@@ -1,21 +1,41 @@
 ---
-// Stub page — full treatments listing + detail pages follow in phase 2.
-// Copy comes from the `pages` collection (CMS: Pagina's → Pagina Behandelingen).
-import { getEntry } from 'astro:content';
+/*
+  Treatments overview: intro copy from the `pages` collection (CMS: Pagina's →
+  Pagina Behandelingen) and the full treatments grid — every entry, not just
+  the featured ones the homepage shows. Detail pages per treatment follow in
+  phase 2.
+*/
+import { getCollection, getEntry } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
+import TreatmentCard from '../components/TreatmentCard.astro';
 import { paragraphs } from '../lib/text';
 
 const page = await getEntry('pages', 'behandelingen');
 if (!page) {
   throw new Error('Ontbrekende inhoud: src/content/pages/behandelingen.json');
 }
+
+const treatments = (await getCollection('treatments')).sort(
+  (a, b) => a.data.order - b.data.order
+);
 ---
 
 <BaseLayout title={page.data.seo.title} description={page.data.seo.description}>
-  <section class="mx-auto max-w-3xl px-4 py-20 text-center sm:px-6">
+  <section class="mx-auto max-w-3xl px-4 pt-20 pb-12 text-center sm:px-6">
     <h1 class="text-3xl text-brand-green sm:text-4xl">{page.data.title}</h1>
+    <div class="mx-auto mt-4 h-0.5 w-10 rounded-full bg-brand-pink" aria-hidden="true"></div>
     <div class="mt-4 space-y-4">
       {paragraphs(page.data.intro).map((p) => <p class="text-brand-green-dark/75">{p}</p>)}
+    </div>
+  </section>
+
+  <section class="mx-auto max-w-6xl px-4 pb-20 sm:px-6">
+    <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+      {
+        treatments.map((t) => (
+          <TreatmentCard title={t.data.title} summary={t.data.summary} image={t.data.image} />
+        ))
+      }
     </div>
   </section>
 </BaseLayout>

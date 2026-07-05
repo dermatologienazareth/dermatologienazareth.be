@@ -10,7 +10,7 @@ import { getCollection, getEntry, render } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Spotlight from '../components/Spotlight.astro';
 import TreatmentCard from '../components/TreatmentCard.astro';
-import { paragraphs } from '../lib/text';
+import { paragraphs, telHref } from '../lib/text';
 
 const home = await getEntry('homePage', 'home');
 if (!home) {
@@ -57,21 +57,19 @@ const ctaTextParts = contactCta.text.split('{telefoon}');
 
     <div class="relative z-10 flex flex-col items-center px-6">
       <img
-        src="/assets/logo.svg"
+        src="/assets/logo.png"
         alt="Dermatologie Nazareth"
         class="logo-on-dark mb-8 w-40 sm:w-48"
-        width="200"
-        height="200"
+        width="904"
+        height="434"
       />
       <h1 class="banner-title text-2xl sm:text-3xl">{hero.title}</h1>
       <p class="mt-6 max-w-xl text-base text-white/85 sm:text-lg">{hero.tagline}</p>
       {
         c && (
           <a
-            href={c.bookingUrl}
-            target="_blank"
-            rel="noopener"
-            class="mt-8 rounded-md bg-white px-7 py-3 text-xs uppercase tracking-widest text-brand-green transition-colors hover:bg-brand-cream"
+            href="/afspraak"
+            class="mt-8 rounded-md bg-white px-7 py-3 text-xs uppercase tracking-widest text-brand-green transition-colors hover:bg-brand-pink-soft"
           >
             {hero.ctaLabel}
           </a>
@@ -99,7 +97,7 @@ const ctaTextParts = contactCta.text.split('{telefoon}');
         title={doctor.data.name}
         image={doctor.data.photo}
         imageAlt={doctor.data.name}
-        tone="cream"
+        tone="pink"
         ctaLabel={doctorSpotlight.ctaLabel}
         ctaHref="/praktijk"
       >
@@ -148,19 +146,21 @@ const ctaTextParts = contactCta.text.split('{telefoon}');
     </div>
   </section>
 
-  <!-- Practical info (dark band with item grid, like the reference site) -->
-  <section class="bg-brand-green text-white">
+  <!-- Practical info: the dusty-rose band. The warm brand colour carries the
+       patient-care content, while green stays the clinical voice (hero,
+       buttons, footer). Text is full green-dark for AA contrast on rose. -->
+  <section class="bg-brand-pink/60 text-brand-green-dark">
     <div class="mx-auto max-w-6xl px-4 py-20 sm:px-6">
       <div class="mb-12 text-center">
-        <p class="eyebrow mb-3 text-brand-pink-soft/90">{practicalSection.eyebrow}</p>
+        <p class="eyebrow mb-3 text-brand-green">{practicalSection.eyebrow}</p>
         <h2 class="section-title text-2xl sm:text-3xl">{practicalSection.title}</h2>
       </div>
       <div class="grid gap-10 sm:grid-cols-2 lg:grid-cols-4">
         {
           practicalSection.items.map((item) => (
             <div class="text-center">
-              <h3 class="text-base uppercase tracking-wider text-white">{item.title}</h3>
-              <p class="mt-3 text-sm leading-relaxed text-white/75">{item.text}</p>
+              <h3 class="text-base uppercase tracking-wider">{item.title}</h3>
+              <p class="mt-3 text-sm leading-relaxed">{item.text}</p>
             </div>
           ))
         }
@@ -178,10 +178,7 @@ const ctaTextParts = contactCta.text.split('{telefoon}');
           {ctaTextParts.map((part, i) => (
             <Fragment>
               {i > 0 && (
-                <a
-                  href={`tel:${c.phone.replace(/\s/g, '')}`}
-                  class="text-brand-green underline-offset-4 hover:underline"
-                >
+                <a href={telHref(c.phone)} class="text-brand-green underline-offset-4 hover:underline">
                   {c.phone}
                 </a>
               )}
@@ -190,9 +187,7 @@ const ctaTextParts = contactCta.text.split('{telefoon}');
           ))}
         </p>
         <a
-          href={c.bookingUrl}
-          target="_blank"
-          rel="noopener"
+          href="/afspraak"
           class="mt-8 inline-block rounded-md bg-brand-green px-8 py-3 text-xs uppercase tracking-widest text-white transition-colors hover:bg-brand-green-dark"
         >
           {contactCta.ctaLabel}

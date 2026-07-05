@@ -1,0 +1,104 @@
+---
+/*
+  Site-wide announcement pop-up (CMS: Instellingen → Aankondiging). Rendered
+  as a native <dialog> (built-in focus trap and Escape handling) and shown
+  once per browser session; dismissal is remembered per message, so an edited
+  announcement is shown again. When disabled in the CMS nothing is rendered.
+*/
+import { getEntry } from 'astro:content';
+import { paragraphs } from '../lib/text';
+
+const announcement = await getEntry('announcement', 'announcement');
+const a = announcement?.data;
+const show = Boolean(a?.enabled && a?.title);
+---
+
+{
+  show && a && (
+    <dialog
+      id="announcement-dialog"
+      aria-labelledby="announcement-title"
+      data-message={`${a.title}\n${a.text}`}
+      class="m-auto w-[min(90vw,26rem)] rounded-2xl border border-brand-pink-soft p-0 shadow-xl"
+    >
+      <div class="p-8 text-center">
+        <h2 id="announcement-title" class="section-title text-xl text-brand-green sm:text-2xl">
+          {a.title}
+        </h2>
+        {a.text && (
+          <div class="mt-4 space-y-3">
+            {paragraphs(a.text).map((p) => (
+              <p class="text-sm leading-relaxed text-brand-green-dark/80">{p}</p>
+            ))}
+          </div>
+        )}
+        <button
+          type="button"
+          id="announcement-close"
+          class="mt-7 inline-block rounded-md bg-brand-green px-7 py-2.5 text-xs uppercase tracking-widest text-white transition-colors hover:bg-brand-green-dark"
+        >
+          Sluiten
+        </button>
+      </div>
+    </dialog>
+  )
+}
+
+<script>
+  const dialog = document.getElementById('announcement-dialog');
+  if (dialog instanceof HTMLDialogElement) {
+    const KEY = 'dn-announcement-dismissed';
+    const message = dialog.dataset.message ?? '';
+    const remember = () => {
+      try {
+        sessionStorage.setItem(KEY, message);
+      } catch {
+        /* ignore */
+      }
+    };
+
+    let dismissed: string | null = null;
+    try {
+      dismissed = sessionStorage.getItem(KEY);
+    } catch {
+      /* storage blocked — the pop-up then simply shows on every page */
+    }
+    if (dismissed !== message) dialog.showModal();
+
+    // Dismissal is remembered in every close path directly (not only via the
+    // 'close' event, which some stripped browser builds fail to fire).
+    const dismiss = () => {
+      remember();
+      dialog.close();
+    };
+    document.getElementById('announcement-close')?.addEventListener('click', dismiss);
+    // A click on the backdrop area (the dialog element itself, not its
+    // content) also closes the pop-up.
+    dialog.addEventListener('click', (event) => {
+      if (event.target === dialog) dismiss();
+    });
+    // Escape closes the modal natively ('cancel' then 'close').
+    dialog.addEventListener('cancel', remember);
+    dialog.addEventListener('close', remember);
+  }
+</script>
+
+<style>
+  dialog::backdrop {
+    background: rgba(75, 81, 71, 0.55); /* brand-green-dark at 55% */
+  }
+  dialog[open] {
+    animation: announcement-in 0.25s ease-out;
+  }
+  @keyframes announcement-in {
+    from {
+      opacity: 0;
+      transform: translateY(0.5rem) scale(0.98);
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    dialog[open] {
+      animation: none;
+    }
+  }
+</style>

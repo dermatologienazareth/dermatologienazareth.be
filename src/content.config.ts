@@ -105,12 +105,26 @@ const homePage = defineCollection({
 const pages = defineCollection({
   loader: glob({
     base: './src/content/pages',
-    pattern: ['behandelingen.json', 'praktijk.json', 'contact.json'],
+    pattern: ['behandelingen.json', 'praktijk.json', 'contact.json', 'afspraak.json'],
   }),
   schema: z.object({
     seo,
     title: z.string(),
     intro: z.string(),
+  }),
+});
+
+// Site-wide announcement pop-up, toggled and worded by the site owner
+// (CMS: Instellingen → Aankondiging).
+const announcement = defineCollection({
+  loader: file('./src/content/settings/announcement.json', {
+    parser: (text) => [{ id: 'announcement', ...JSON.parse(text) }],
+  }),
+  schema: z.object({
+    id: z.string(),
+    enabled: z.boolean(),
+    title: z.string(),
+    text: z.string().default(''),
   }),
 });
 
@@ -128,7 +142,12 @@ const settings = defineCollection({
     postalCode: z.string(),
     city: z.string(),
     phone: z.string(),
+    // Short qualifier shown next to the phone number (e.g. when bookings run
+    // through another practice's line); empty once no longer needed.
+    phoneNote: z.string().default(''),
     email: z.string(),
+    // Empty while online booking is unavailable — "Afspraak maken" buttons
+    // then fall back to a tel: link to `phone`.
     bookingUrl: z.string(),
     openingHours: z.array(
       z.object({
@@ -139,4 +158,4 @@ const settings = defineCollection({
   }),
 });
 
-export const collections = { treatments, team, homePage, pages, settings };
+export const collections = { treatments, team, homePage, pages, announcement, settings };

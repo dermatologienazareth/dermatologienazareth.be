@@ -7,8 +7,6 @@
   visual state lives in this markup — the script only flips the attribute.
   On other pages it is solid from the start. Navigation works without JS.
 */
-import { getEntry } from 'astro:content';
-
 interface Props {
   overlay?: boolean;
 }
@@ -26,8 +24,6 @@ const nav = [
 const normalize = (path: string) => path.replace(/\/+$/, '') || '/';
 const current = normalize(Astro.url.pathname);
 
-const contact = await getEntry('settings', 'contact');
-const bookingUrl = contact?.data.bookingUrl ?? '#';
 ---
 
 <header
@@ -43,14 +39,14 @@ const bookingUrl = contact?.data.bookingUrl ?? '#';
   <nav class="mx-auto flex max-w-6xl items-center justify-between gap-4 px-4 py-3 sm:px-6">
     <a href="/" class="flex items-center" aria-label="Dermatologie Nazareth — home">
       <img
-        src="/assets/logo.svg"
+        src="/assets/logo.png"
         alt="Dermatologie Nazareth"
         class:list={[
           'h-12 w-auto transition-[filter] duration-300',
           overlay && 'logo-on-dark group-data-solid:filter-none',
         ]}
-        width="200"
-        height="200"
+        width="904"
+        height="434"
       />
     </a>
 
@@ -79,9 +75,7 @@ const bookingUrl = contact?.data.bookingUrl ?? '#';
 
     <div class="flex items-center gap-2">
       <a
-        href={bookingUrl}
-        target="_blank"
-        rel="noopener"
+        href="/afspraak"
         class:list={[
           'hidden rounded-md px-5 py-2 text-xs uppercase tracking-widest transition-colors sm:inline-block',
           overlay
@@ -128,12 +122,7 @@ const bookingUrl = contact?.data.bookingUrl ?? '#';
         })
       }
       <li>
-        <a
-          href={bookingUrl}
-          target="_blank"
-          rel="noopener"
-          class="mt-2 block rounded-md bg-brand-green px-5 py-2 text-center text-white"
-        >
+        <a href="/afspraak" class="mt-2 block rounded-md bg-brand-green px-5 py-2 text-center text-white">
           Afspraak maken
         </a>
       </li>

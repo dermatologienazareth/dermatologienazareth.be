@@ -13,7 +13,7 @@ interface Props {
 const { title, summary, image } = Astro.props;
 ---
 
-<article class="group flex flex-col overflow-hidden rounded-2xl border border-brand-pink-soft bg-white transition-shadow hover:shadow-lg hover:shadow-brand-pink/20">
+<article class="group flex flex-col overflow-hidden rounded-2xl border border-brand-pink-soft bg-white transition-[border-color,box-shadow] duration-300 hover:border-brand-pink/70 hover:shadow-lg hover:shadow-brand-pink/20">
   {
     image ? (
       <img src={image} alt={title} class="h-44 w-full object-cover" loading="lazy" width="600" height="352" />

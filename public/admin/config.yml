@@ -43,7 +43,7 @@ collections:
             fields:
               - { name: title, label: "Titel", widget: string }
               - { name: tagline, label: "Ondertitel", widget: string }
-              - { name: ctaLabel, label: "Knoptekst", widget: string, hint: "De knop verwijst naar de afspraak-link uit Instellingen → Contactgegevens." }
+              - { name: ctaLabel, label: "Knoptekst", widget: string, hint: "De knop verwijst naar de pagina Afspraak." }
           - name: intro
             label: "Welkomsttekst"
             widget: object
@@ -106,7 +106,7 @@ collections:
               - { name: eyebrow, label: "Bovenschrift", widget: string }
               - { name: title, label: "Titel", widget: string }
               - { name: text, label: "Tekst", widget: text, hint: "Schrijf {telefoon} waar het telefoonnummer (uit Instellingen → Contactgegevens) als klikbare link moet komen." }
-              - { name: ctaLabel, label: "Knoptekst", widget: string, hint: "De knop verwijst naar de afspraak-link uit Instellingen → Contactgegevens." }
+              - { name: ctaLabel, label: "Knoptekst", widget: string, hint: "De knop verwijst naar de pagina Afspraak." }
           - name: seo
             label: "Zoekmachines (SEO)"
             widget: object
@@ -137,6 +137,21 @@ collections:
         fields:
           - { name: title, label: "Titel", widget: string }
           - { name: intro, label: "Introtekst", widget: text, hint: "Een witregel begint een nieuwe alinea." }
+          - name: seo
+            label: "Zoekmachines (SEO)"
+            widget: object
+            collapsed: true
+            hint: "Niet zichtbaar op de pagina zelf; zo verschijnt de pagina in Google en in de browsertab."
+            fields:
+              - { name: title, label: "Paginatitel", widget: string }
+              - { name: description, label: "Omschrijving", widget: text }
+
+      - name: afspraak
+        label: "Pagina Afspraak"
+        file: "src/content/pages/afspraak.json"
+        fields:
+          - { name: title, label: "Titel", widget: string }
+          - { name: intro, label: "Introtekst", widget: text, hint: "Alle knoppen “Afspraak maken” op de website leiden naar deze pagina. Het telefoonnummer (of de online agenda-knop) komt automatisch onder deze tekst, uit Instellingen → Contactgegevens. Een witregel begint een nieuwe alinea." }
           - name: seo
             label: "Zoekmachines (SEO)"
             widget: object
@@ -199,6 +214,13 @@ collections:
   - name: settings
     label: "Instellingen"
     files:
+      - name: announcement
+        label: "Aankondiging (pop-up)"
+        file: "src/content/settings/announcement.json"
+        fields:
+          - { name: enabled, label: "Actief", widget: boolean, default: false, hint: "Aangevinkt: bezoekers krijgen de pop-up één keer per bezoek te zien. Uitgevinkt: geen pop-up." }
+          - { name: title, label: "Titel", widget: string, hint: "Bv. “Opening najaar 2026”." }
+          - { name: text, label: "Tekst", widget: text, required: false, hint: "Optionele extra tekst onder de titel. Een witregel begint een nieuwe alinea. Na een aanpassing zien ook eerdere bezoekers de pop-up opnieuw." }
       - name: contact
         label: "Contactgegevens"
         file: "src/content/settings/contact.json"
@@ -208,8 +230,9 @@ collections:
           - { name: postalCode, label: "Postcode", widget: string }
           - { name: city, label: "Gemeente", widget: string }
           - { name: phone, label: "Telefoon", widget: string }
-          - { name: email, label: "E-mail", widget: string }
-          - { name: bookingUrl, label: "Afspraak-link (externe agenda)", widget: string, hint: "Alle knoppen “Afspraak maken” op de website verwijzen naar deze link." }
+          - { name: phoneNote, label: "Toelichting bij telefoonnummer", widget: string, required: false, hint: "Korte vermelding naast het nummer, bv. “praktijk De Pinte” zolang afspraken via die lijn lopen. Laat leeg zodra niet meer nodig." }
+          - { name: email, label: "E-mail", widget: string, hint: "Getoond in de voettekst en op de pagina Contact. Nog niet actief? Zet er “TODO:” voor — het wordt dan als gewone tekst getoond, niet als klikbare link." }
+          - { name: bookingUrl, label: "Afspraak-link (externe agenda)", widget: string, required: false, hint: "Laat leeg zolang online boeken niet mogelijk is — de pagina Afspraak toont dan enkel het telefoonnummer. Zodra de online agenda bestaat, vul hier de link in; de pagina Afspraak krijgt dan automatisch een knop “Online afspraak maken”." }
           - name: openingHours
             label: "Openingsuren"
             label_singular: "Dag"

@@ -40,16 +40,22 @@ structure. The CMS is organized so it's clear where each text appears:
 - **Pagina's** — one entry per page. The *Homepagina* entry has one field group
   per visual section, in page order (openingsbeeld, welkomsttekst, sectie
   huidarts, sectie praktijk, …); each group has a Dutch hint explaining where
-  it shows. The sub pages (Behandelingen / Praktijk / Contact) have a title +
-  intro. Every page also has a collapsed *Zoekmachines (SEO)* group.
+  it shows. The sub pages (Behandelingen / Praktijk / Afspraak / Contact) have
+  a title + intro. Every page also has a collapsed *Zoekmachines (SEO)* group.
 - **Behandelingen** — one entry per treatment; shown as cards on
   `/behandelingen`, and on the homepage when *Uitgelicht* is checked.
 - **Team** — one entry per team member. The homepage "Uw huidarts" section
   shows the member selected in *Pagina's → Homepagina* (name, photo **and bio**
   come from the team entry — single source of truth).
 - **Instellingen → Contactgegevens** — address, phone, e-mail, booking URL and
-  opening hours, used by the footer, contact page and all "Afspraak maken"
-  buttons. In texts, `{telefoon}` marks where the clickable phone number goes.
+  opening hours, used by the footer, contact page and the Afspraak page. All
+  "Afspraak maken" buttons navigate to `/afspraak`; that page shows the phone
+  number (click-to-call) while `bookingUrl` is empty and switches to an online
+  agenda button once it is filled. In texts, `{telefoon}` marks where the
+  clickable phone number goes.
+- **Instellingen → Aankondiging (pop-up)** — site-wide announcement dialog
+  (e.g. "Opening najaar 2026"): toggle it on/off and edit title/text. Visitors
+  see it once per browser session; an edited message shows again.
 
 Collections map 1:1 to the Astro content collections in `src/content.config.ts`.
 New CMS entries get clean ASCII slugs (`slug:` block in `config.yml`), so
@@ -93,11 +99,11 @@ src/
   layouts/BaseLayout.astro
   components/            # Header, Footer, Seo, Spotlight, TreatmentCard
   lib/text.ts            # paragraphs() helper for multiline CMS text fields
-  pages/                 # index (built out) + behandelingen/praktijk/contact (stubs)
+  pages/                 # index/behandelingen/afspraak (built out); praktijk/contact (stubs)
   styles/global.css      # Tailwind 4 @theme brand tokens + @font-face + components
 public/
   admin/                 # Sveltia CMS (index.html + config.yml)
-  fonts/  assets/        # webfonts, logo (svg/png), images
+  fonts/  assets/        # webfonts, logo (transparent png + opaque og jpg), images
 ```
 
 ## Status
@@ -107,8 +113,22 @@ public/
 home page styled after the reference practice
 [dermatologielatem.be](https://dermatologielatem.be) (HTML5 UP "Stellar"
 layout): full-screen hero, alternating spotlight bands, a treatments grid
-(entries marked *Uitgelicht*), practical-info band, contact CTA.
-`behandelingen` / `praktijk` / `contact` are styled stubs with CMS-managed copy.
+(entries marked *Uitgelicht*), practical-info band, contact CTA. The
+`behandelingen` page lists all treatments; `praktijk` / `contact` are styled
+stubs with CMS-managed copy.
+
+Texts (8 treatments, doctor bio, practical info) are adapted from
+[dermatodepinte.be](https://www.dermatodepinte.be), per the project brief.
+Photos are a person-free selection from that site (only images without
+identifiable people; two show anonymous gloved hands / a skin close-up) —
+replace with the practice's own photos when available.
+
+Five treatment cards use stock photos from [Pexels](https://www.pexels.com)
+([license](https://www.pexels.com/license/): free for commercial use, no
+attribution required), also selected to show no identifiable people. Source
+photo IDs, for provenance: algemene dermatologie 5701545, huidkankerscreening
+4046561, lasertherapie 37078056, epilatielaser 16032366, botox 29113585
+(`https://www.pexels.com/photo/<id>/`).
 
 Implementation notes:
 
@@ -120,10 +140,11 @@ Implementation notes:
 
 ### Next (phase 2)
 
-- Full `behandelingen` listing + `[slug]` detail pages; `praktijk` (team grid);
-  `contact` (map, route, hours).
-- Replace placeholders via the CMS: contact data (address/phone/`bookingUrl`
-  are `TODO`), definitive texts, practice/treatment photos.
+- `behandelingen/[slug]` detail pages (bodies already in the CMS); `praktijk`
+  (team grid); `contact` (map, route, hours).
+- Replace placeholders via the CMS: contact data (address and e-mail are
+  `TODO`; a non-e-mail value renders unlinked), `bookingUrl` once the online
+  agenda exists, Nazareth-specific texts and photos.
 - Deploy + wire Sveltia OAuth (see above).
 - Confirm a **Gotham Rounded webfont licence** (commercial font) or swap the font
   vars in `src/styles/global.css` for a free match (e.g. Nunito / Quicksand).

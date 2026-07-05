@@ -13,7 +13,7 @@ interface Props {
   /** Flip the image to the right. */
   reverse?: boolean;
   /** Section background tone. */
-  tone?: 'white' | 'cream';
+  tone?: 'white' | 'cream' | 'pink';
   ctaLabel?: string;
   ctaHref?: string;
 }
@@ -29,7 +29,7 @@ const {
   ctaHref,
 } = Astro.props;
 
-const bg = tone === 'cream' ? 'bg-brand-cream/60' : 'bg-white';
+const bg = tone === 'cream' ? 'bg-brand-cream/60' : tone === 'pink' ? 'bg-brand-pink-soft/70' : 'bg-white';
 ---
 
 <section class={`${bg}`}>

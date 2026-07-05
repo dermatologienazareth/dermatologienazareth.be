@@ -21,7 +21,8 @@
   "practiceSpotlight": {
     "eyebrow": "De praktijk",
     "title": "Een rustige, verzorgde omgeving",
-    "text": "Bij Dermatologie Nazareth nemen we de tijd voor een zorgvuldige diagnose en een persoonlijke aanpak. De praktijk is modern uitgerust en vlot bereikbaar.\n\n(TODO: vervang door de definitieve tekst en voeg hieronder een sfeerfoto toe.)",
+    "text": "Bij Dermatologie Nazareth nemen we de tijd voor een zorgvuldige diagnose en een persoonlijke aanpak. De praktijk is modern uitgerust en vlot bereikbaar.",
+    "image": "/assets/images/praktijk/behandelkamer.jpg",
     "ctaLabel": "Bekijk de behandelingen"
   },
   "treatmentsSection": {
@@ -35,7 +36,7 @@
     "items": [
       {
         "title": "Op afspraak",
-        "text": "Consultaties verlopen steeds op afspraak. Boek eenvoudig online via onze agenda."
+        "text": "Consultaties verlopen steeds op afspraak. Bel voor een afspraak naar 09 385 67 82 (praktijk De Pinte) en annuleer minstens 24 uur op voorhand indien u verhinderd bent."
       },
       {
         "title": "Mee te nemen",
@@ -43,18 +44,18 @@
       },
       {
         "title": "Betalingen",
-        "text": "Betalen kan met Bancontact of Payconiq. (TODO: definitieve modaliteiten.)"
+        "text": "Betalen kan bij voorkeur met Payconiq of Bancontact."
       },
       {
-        "title": "Toegankelijkheid",
-        "text": "De praktijk is vlot bereikbaar en toegankelijk. Vrij parkeren in de buurt."
+        "title": "Eén afspraak, één patiënt",
+        "text": "Wenst u voor meerdere personen een probleem te bespreken? Maak dan voor elke persoon een afzonderlijke afspraak."
       }
     ]
   },
   "contactCta": {
     "eyebrow": "Contact",
     "title": "Een afspraak maken?",
-    "text": "Boek eenvoudig online via onze externe agenda of bel ons op {telefoon}.",
+    "text": "Online een afspraak boeken is momenteel nog niet mogelijk. Voor een afspraak belt u naar praktijk Dermatologie De Pinte op {telefoon} — wij helpen u graag verder.",
     "ctaLabel": "Afspraak maken"
   }
 }
