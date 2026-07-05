@@ -80,7 +80,8 @@ proxy server or login needed:
 
 ## Deploy (Cloudflare Pages)
 
-- Build command: `npm run build` · Output dir: `dist` · `NODE_VERSION=22` · branch `main`
+- Build command: `npm run build` · Output dir: `dist` · branch `main`
+  (Node version comes from the committed `.node-version` file)
 - Pure static — **no** `@astrojs/cloudflare` adapter needed.
 - **Before the client can edit in production**, the Sveltia GitHub backend needs
   an OAuth proxy: deploy the [`sveltia/sveltia-cms-auth`](https://github.com/sveltia/sveltia-cms-auth)

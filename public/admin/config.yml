@@ -7,7 +7,7 @@
 # and set `base_url` below. Local editing/preview of the UI works without this.
 backend:
   name: github
-  repo: MathieuBordere/dermatologienazareth.be
+  repo: dermatologienazareth-be/dermatologienazareth.be
   branch: main
   # base_url: https://<your-oauth-worker>.workers.dev
 
