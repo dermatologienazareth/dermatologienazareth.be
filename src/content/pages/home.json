@@ -1,0 +1,60 @@
+{
+  "seo": {
+    "title": "Dermatologie Nazareth — Huidarts in Nazareth",
+    "description": "Dermatologie Nazareth biedt algemene en gespecialiseerde huidzorg in een rustige, professionele omgeving. Maak online een afspraak."
+  },
+  "hero": {
+    "title": "Dermatologie Nazareth",
+    "tagline": "Deskundige huidzorg in een rustige, vertrouwde omgeving.",
+    "ctaLabel": "Afspraak maken"
+  },
+  "intro": {
+    "eyebrow": "Welkom",
+    "title": "Welkom bij Dermatologie Nazareth",
+    "text": "Onze praktijk staat voor toegankelijke en kwalitatieve dermatologische zorg. Van algemene huidklachten tot preventieve screening en gespecialiseerde behandelingen — u bent bij ons in goede handen."
+  },
+  "doctorSpotlight": {
+    "eyebrow": "Uw huidarts",
+    "member": "alicia-bordere",
+    "ctaLabel": "Maak kennis met de praktijk"
+  },
+  "practiceSpotlight": {
+    "eyebrow": "De praktijk",
+    "title": "Een rustige, verzorgde omgeving",
+    "text": "Bij Dermatologie Nazareth nemen we de tijd voor een zorgvuldige diagnose en een persoonlijke aanpak. De praktijk is modern uitgerust en vlot bereikbaar.\n\n(TODO: vervang door de definitieve tekst en voeg hieronder een sfeerfoto toe.)",
+    "ctaLabel": "Bekijk de behandelingen"
+  },
+  "treatmentsSection": {
+    "eyebrow": "Aanbod",
+    "title": "Behandelingen",
+    "ctaLabel": "Alle behandelingen"
+  },
+  "practicalSection": {
+    "eyebrow": "Goed om te weten",
+    "title": "Praktische info",
+    "items": [
+      {
+        "title": "Op afspraak",
+        "text": "Consultaties verlopen steeds op afspraak. Boek eenvoudig online via onze agenda."
+      },
+      {
+        "title": "Mee te nemen",
+        "text": "Breng uw identiteitskaart en, indien van toepassing, een verwijsbrief mee."
+      },
+      {
+        "title": "Betalingen",
+        "text": "Betalen kan met Bancontact of Payconiq. (TODO: definitieve modaliteiten.)"
+      },
+      {
+        "title": "Toegankelijkheid",
+        "text": "De praktijk is vlot bereikbaar en toegankelijk. Vrij parkeren in de buurt."
+      }
+    ]
+  },
+  "contactCta": {
+    "eyebrow": "Contact",
+    "title": "Een afspraak maken?",
+    "text": "Boek eenvoudig online via onze externe agenda of bel ons op {telefoon}.",
+    "ctaLabel": "Afspraak maken"
+  }
+}

@@ -18,10 +18,153 @@ public_folder: "/assets/images"
 # Dutch UI for the site owner.
 locale: nl
 
+# New entries get clean ASCII filenames (and thus clean URLs): diacritics are
+# transliterated (é -> e) and other special characters become "-".
+slug:
+  encoding: ascii
+  clean_accents: true
+  sanitize_replacement: "-"
+
 collections:
+  # All page copy, one entry per page, field groups in page order (top to
+  # bottom) so the editor can see exactly where each text appears.
+  - name: pages
+    label: "Pagina's"
+    description: "Alle teksten van de website, per pagina. De volgorde van de secties volgt de pagina van boven naar onder."
+    files:
+      - name: home
+        label: "Homepagina"
+        file: "src/content/pages/home.json"
+        fields:
+          - name: hero
+            label: "Openingsbeeld"
+            widget: object
+            hint: "Het schermvullende beeld bovenaan de homepagina."
+            fields:
+              - { name: title, label: "Titel", widget: string }
+              - { name: tagline, label: "Ondertitel", widget: string }
+              - { name: ctaLabel, label: "Knoptekst", widget: string, hint: "De knop verwijst naar de afspraak-link uit Instellingen → Contactgegevens." }
+          - name: intro
+            label: "Welkomsttekst"
+            widget: object
+            hint: "De korte introductie direct onder het openingsbeeld."
+            fields:
+              - { name: eyebrow, label: "Bovenschrift", widget: string, hint: "Het kleine woord boven de titel, bv. “Welkom”." }
+              - { name: title, label: "Titel", widget: string }
+              - { name: text, label: "Tekst", widget: text }
+          - name: doctorSpotlight
+            label: "Sectie: uw huidarts"
+            widget: object
+            hint: "Stelt één teamlid voor, met foto en bio uit Team. Pas naam, foto en bio dus aan bij het teamlid zelf."
+            fields:
+              - { name: eyebrow, label: "Bovenschrift", widget: string }
+              - name: member
+                label: "Teamlid"
+                widget: relation
+                collection: team
+                value_field: "{{slug}}"
+                search_fields: [name]
+                display_fields: [name]
+              - { name: ctaLabel, label: "Knoptekst", widget: string, hint: "De knop verwijst naar de pagina Praktijk." }
+          - name: practiceSpotlight
+            label: "Sectie: de praktijk"
+            widget: object
+            hint: "De tweede fotosectie, over de praktijkruimte."
+            fields:
+              - { name: eyebrow, label: "Bovenschrift", widget: string }
+              - { name: title, label: "Titel", widget: string }
+              - { name: text, label: "Tekst", widget: text, hint: "Een witregel begint een nieuwe alinea." }
+              - { name: image, label: "Foto", widget: image, required: false, hint: "Zonder foto wordt een rustig kleurvlak getoond." }
+              - { name: ctaLabel, label: "Knoptekst", widget: string, hint: "De knop verwijst naar de pagina Behandelingen." }
+          - name: treatmentsSection
+            label: "Sectie: behandelingen"
+            widget: object
+            hint: "Toont automatisch de behandelingen die als “Uitgelicht” zijn aangevinkt (zie Behandelingen)."
+            fields:
+              - { name: eyebrow, label: "Bovenschrift", widget: string }
+              - { name: title, label: "Titel", widget: string }
+              - { name: ctaLabel, label: "Knoptekst", widget: string, hint: "De knop verwijst naar de pagina Behandelingen." }
+          - name: practicalSection
+            label: "Sectie: praktische info"
+            widget: object
+            hint: "De donkergroene band met korte praktische punten."
+            fields:
+              - { name: eyebrow, label: "Bovenschrift", widget: string }
+              - { name: title, label: "Titel", widget: string }
+              - name: items
+                label: "Punten"
+                label_singular: "Punt"
+                widget: list
+                fields:
+                  - { name: title, label: "Titel", widget: string }
+                  - { name: text, label: "Tekst", widget: text }
+          - name: contactCta
+            label: "Sectie: afspraak maken"
+            widget: object
+            hint: "De afsluitende oproep onderaan de homepagina."
+            fields:
+              - { name: eyebrow, label: "Bovenschrift", widget: string }
+              - { name: title, label: "Titel", widget: string }
+              - { name: text, label: "Tekst", widget: text, hint: "Schrijf {telefoon} waar het telefoonnummer (uit Instellingen → Contactgegevens) als klikbare link moet komen." }
+              - { name: ctaLabel, label: "Knoptekst", widget: string, hint: "De knop verwijst naar de afspraak-link uit Instellingen → Contactgegevens." }
+          - name: seo
+            label: "Zoekmachines (SEO)"
+            widget: object
+            collapsed: true
+            hint: "Niet zichtbaar op de pagina zelf; zo verschijnt de pagina in Google en in de browsertab."
+            fields:
+              - { name: title, label: "Paginatitel", widget: string }
+              - { name: description, label: "Omschrijving", widget: text }
+
+      - name: behandelingen
+        label: "Pagina Behandelingen"
+        file: "src/content/pages/behandelingen.json"
+        fields:
+          - { name: title, label: "Titel", widget: string }
+          - { name: intro, label: "Introtekst", widget: text, hint: "Een witregel begint een nieuwe alinea." }
+          - name: seo
+            label: "Zoekmachines (SEO)"
+            widget: object
+            collapsed: true
+            hint: "Niet zichtbaar op de pagina zelf; zo verschijnt de pagina in Google en in de browsertab."
+            fields:
+              - { name: title, label: "Paginatitel", widget: string }
+              - { name: description, label: "Omschrijving", widget: text }
+
+      - name: praktijk
+        label: "Pagina Praktijk"
+        file: "src/content/pages/praktijk.json"
+        fields:
+          - { name: title, label: "Titel", widget: string }
+          - { name: intro, label: "Introtekst", widget: text, hint: "Een witregel begint een nieuwe alinea." }
+          - name: seo
+            label: "Zoekmachines (SEO)"
+            widget: object
+            collapsed: true
+            hint: "Niet zichtbaar op de pagina zelf; zo verschijnt de pagina in Google en in de browsertab."
+            fields:
+              - { name: title, label: "Paginatitel", widget: string }
+              - { name: description, label: "Omschrijving", widget: text }
+
+      - name: contact
+        label: "Pagina Contact"
+        file: "src/content/pages/contact.json"
+        fields:
+          - { name: title, label: "Titel", widget: string }
+          - { name: intro, label: "Introtekst", widget: text, hint: "De adresgegevens en openingsuren op deze pagina komen uit Instellingen → Contactgegevens." }
+          - name: seo
+            label: "Zoekmachines (SEO)"
+            widget: object
+            collapsed: true
+            hint: "Niet zichtbaar op de pagina zelf; zo verschijnt de pagina in Google en in de browsertab."
+            fields:
+              - { name: title, label: "Paginatitel", widget: string }
+              - { name: description, label: "Omschrijving", widget: text }
+
   - name: treatments
     label: "Behandelingen"
     label_singular: "Behandeling"
+    description: "Elke behandeling is een kaartje op de pagina Behandelingen; aangevinkt als “Uitgelicht” verschijnt ze ook op de homepagina."
     folder: "src/content/treatments"
     create: true
     extension: md
@@ -30,15 +173,16 @@ collections:
     sortable_fields: [order, title]
     fields:
       - { name: title, label: "Titel", widget: string }
-      - { name: summary, label: "Samenvatting", widget: text }
-      - { name: order, label: "Volgorde", widget: number, value_type: int, default: 0 }
-      - { name: featured, label: "Uitgelicht", widget: boolean, default: false }
-      - { name: image, label: "Afbeelding", widget: image, required: false }
-      - { name: body, label: "Inhoud", widget: markdown }
+      - { name: summary, label: "Samenvatting", widget: text, hint: "De korte tekst op het kaartje." }
+      - { name: order, label: "Volgorde", widget: number, value_type: int, default: 0, hint: "Laagste nummer eerst." }
+      - { name: featured, label: "Uitgelicht", widget: boolean, default: false, hint: "Aangevinkt: toon deze behandeling ook op de homepagina." }
+      - { name: image, label: "Afbeelding", widget: image, required: false, hint: "Zonder afbeelding krijgt het kaartje een rustig kleurvlak." }
+      - { name: body, label: "Inhoud", widget: markdown, hint: "De uitgebreide beschrijving voor de detailpagina (volgt in fase 2)." }
 
   - name: team
     label: "Team"
     label_singular: "Teamlid"
+    description: "Het gekozen teamlid (zie Pagina's → Homepagina) staat op de homepagina; de volledige teampagina volgt in fase 2."
     folder: "src/content/team"
     create: true
     extension: md
@@ -49,8 +193,8 @@ collections:
       - { name: name, label: "Naam", widget: string }
       - { name: role, label: "Functie", widget: string }
       - { name: photo, label: "Foto", widget: image }
-      - { name: order, label: "Volgorde", widget: number, value_type: int, default: 0 }
-      - { name: body, label: "Bio", widget: markdown }
+      - { name: order, label: "Volgorde", widget: number, value_type: int, default: 0, hint: "Laagste nummer eerst." }
+      - { name: body, label: "Bio", widget: markdown, hint: "Deze bio verschijnt ook op de homepagina wanneer dit teamlid daar gekozen is." }
 
   - name: settings
     label: "Instellingen"
@@ -59,13 +203,13 @@ collections:
         label: "Contactgegevens"
         file: "src/content/settings/contact.json"
         fields:
-          - { name: practiceName, label: "Praktijknaam", widget: string }
-          - { name: addressLine, label: "Adres", widget: string }
+          - { name: practiceName, label: "Praktijknaam", widget: string, hint: "Gebruikt in o.a. de voettekst." }
+          - { name: addressLine, label: "Adres", widget: string, hint: "Adres en openingsuren staan in de voettekst van elke pagina en op de pagina Contact." }
           - { name: postalCode, label: "Postcode", widget: string }
           - { name: city, label: "Gemeente", widget: string }
           - { name: phone, label: "Telefoon", widget: string }
           - { name: email, label: "E-mail", widget: string }
-          - { name: bookingUrl, label: "Afspraak-link (externe agenda)", widget: string }
+          - { name: bookingUrl, label: "Afspraak-link (externe agenda)", widget: string, hint: "Alle knoppen “Afspraak maken” op de website verwijzen naar deze link." }
           - name: openingHours
             label: "Openingsuren"
             label_singular: "Dag"

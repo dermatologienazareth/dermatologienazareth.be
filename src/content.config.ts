@@ -8,7 +8,16 @@ import { glob, file } from 'astro/loaders';
   public/assets and references them by their served path — this keeps the
   CMS round-trip lossless. (Astro's image() optimizer is reserved for
   build-time assets imported in code, not CMS-managed public files.)
+
+  All page copy lives in src/content/pages/ so the site owner edits it via
+  the CMS "Pagina's" collection; the .astro pages only provide structure.
 */
+
+/** <title> + meta description, editable per page. */
+const seo = z.object({
+  title: z.string(),
+  description: z.string(),
+});
 
 const treatments = defineCollection({
   loader: glob({ base: './src/content/treatments', pattern: '**/*.md' }),
@@ -28,6 +37,80 @@ const team = defineCollection({
     role: z.string(),
     photo: z.string(),
     order: z.number().default(0),
+  }),
+});
+
+// Homepage copy, one field group per visual section (top to bottom). A
+// singleton like `settings`: the parser wraps the flat JSON object written by
+// Sveltia into one record so getEntry('homePage', 'home') resolves it.
+const homePage = defineCollection({
+  loader: file('./src/content/pages/home.json', {
+    parser: (text) => [{ id: 'home', ...JSON.parse(text) }],
+  }),
+  schema: z.object({
+    id: z.string(),
+    seo,
+    hero: z.object({
+      title: z.string(),
+      tagline: z.string(),
+      ctaLabel: z.string(),
+    }),
+    intro: z.object({
+      eyebrow: z.string(),
+      title: z.string(),
+      text: z.string(),
+    }),
+    doctorSpotlight: z.object({
+      eyebrow: z.string(),
+      // Sveltia relation value: the slug of a `team` entry. The name, photo
+      // and bio are rendered from that entry, so the bio has a single source.
+      member: z.string(),
+      ctaLabel: z.string(),
+    }),
+    practiceSpotlight: z.object({
+      eyebrow: z.string(),
+      title: z.string(),
+      text: z.string(),
+      image: z.string().optional(),
+      ctaLabel: z.string(),
+    }),
+    treatmentsSection: z.object({
+      eyebrow: z.string(),
+      title: z.string(),
+      ctaLabel: z.string(),
+    }),
+    practicalSection: z.object({
+      eyebrow: z.string(),
+      title: z.string(),
+      items: z.array(
+        z.object({
+          title: z.string(),
+          text: z.string(),
+        })
+      ),
+    }),
+    contactCta: z.object({
+      eyebrow: z.string(),
+      title: z.string(),
+      // "{telefoon}" in the text is replaced with a clickable phone number.
+      text: z.string(),
+      ctaLabel: z.string(),
+    }),
+  }),
+});
+
+// Copy for the simple sub pages. Explicit allowlist (not "*.json") so a stray
+// file in the folder can never break the shared schema; home.json has its own
+// richer collection above.
+const pages = defineCollection({
+  loader: glob({
+    base: './src/content/pages',
+    pattern: ['behandelingen.json', 'praktijk.json', 'contact.json'],
+  }),
+  schema: z.object({
+    seo,
+    title: z.string(),
+    intro: z.string(),
   }),
 });
 
@@ -56,4 +139,4 @@ const settings = defineCollection({
   }),
 });
 
-export const collections = { treatments, team, settings };
+export const collections = { treatments, team, homePage, pages, settings };

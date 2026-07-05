@@ -7,7 +7,9 @@
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "test": "node --experimental-strip-types --test 'src/**/*.test.ts'",
+    "screenshot": "node scripts/screenshot.mjs"
   },
   "dependencies": {
     "@astrojs/sitemap": "^3.2.1",
@@ -15,6 +17,7 @@
   },
   "devDependencies": {
     "@tailwindcss/vite": "^4.1.0",
+    "playwright-core": "^1.49.0",
     "tailwindcss": "^4.1.0"
   }
 }

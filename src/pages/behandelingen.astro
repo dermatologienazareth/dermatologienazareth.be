@@ -1,16 +1,21 @@
 ---
 // Stub page — full treatments listing + detail pages follow in phase 2.
+// Copy comes from the `pages` collection (CMS: Pagina's → Pagina Behandelingen).
+import { getEntry } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
+import { paragraphs } from '../lib/text';
+
+const page = await getEntry('pages', 'behandelingen');
+if (!page) {
+  throw new Error('Ontbrekende inhoud: src/content/pages/behandelingen.json');
+}
 ---
 
-<BaseLayout
-  title="Behandelingen — Dermatologie Nazareth"
-  description="Overzicht van de dermatologische onderzoeken en behandelingen bij Dermatologie Nazareth."
->
+<BaseLayout title={page.data.seo.title} description={page.data.seo.description}>
   <section class="mx-auto max-w-3xl px-4 py-20 text-center sm:px-6">
-    <h1 class="text-3xl text-brand-green sm:text-4xl">Behandelingen</h1>
-    <p class="mt-4 text-brand-green-dark/75">
-      Deze pagina wordt binnenkort verder uitgewerkt met ons volledige aanbod.
-    </p>
+    <h1 class="text-3xl text-brand-green sm:text-4xl">{page.data.title}</h1>
+    <div class="mt-4 space-y-4">
+      {paragraphs(page.data.intro).map((p) => <p class="text-brand-green-dark/75">{p}</p>)}
+    </div>
   </section>
 </BaseLayout>

@@ -1,8 +1,10 @@
 ---
 /*
   Site header. On pages with a full-screen hero (overlay=true) it sits
-  transparently over the banner with a white logo and links, then turns solid
-  white once the user scrolls past the hero (toggled by a small scroll script).
+  transparently over the banner with a white logo and links; once the user
+  scrolls past the hero, a tiny script sets [data-solid] on the header and the
+  data-solid:/group-data-solid: variants below restyle it to solid white. All
+  visual state lives in this markup — the script only flips the attribute.
   On other pages it is solid from the start. Navigation works without JS.
 */
 import { getEntry } from 'astro:content';
@@ -19,7 +21,10 @@ const nav = [
   { label: 'Contact', href: '/contact' },
 ];
 
-const current = Astro.url.pathname.replace(/\/$/, '') || '/';
+// Trailing-slash-insensitive path comparison; '/' normalizes to itself so the
+// home link also gets its active state.
+const normalize = (path: string) => path.replace(/\/+$/, '') || '/';
+const current = normalize(Astro.url.pathname);
 
 const contact = await getEntry('settings', 'contact');
 const bookingUrl = contact?.data.bookingUrl ?? '#';
@@ -29,8 +34,10 @@ const bookingUrl = contact?.data.bookingUrl ?? '#';
   id="site-header"
   data-overlay={overlay ? '' : undefined}
   class:list={[
-    'fixed inset-x-0 top-0 z-40 transition-colors duration-300',
-    overlay ? 'bg-transparent text-white' : 'border-b border-brand-pink-soft bg-white/95 text-brand-green-dark backdrop-blur',
+    'group fixed inset-x-0 top-0 z-40 transition-colors duration-300',
+    overlay
+      ? 'bg-transparent text-white data-solid:bg-white/95 data-solid:text-brand-green-dark data-solid:shadow-sm data-solid:backdrop-blur'
+      : 'border-b border-brand-pink-soft bg-white/95 text-brand-green-dark backdrop-blur',
   ]}
 >
   <nav class="mx-auto flex max-w-6xl items-center justify-between gap-4 px-4 py-3 sm:px-6">
@@ -38,7 +45,10 @@ const bookingUrl = contact?.data.bookingUrl ?? '#';
       <img
         src="/assets/logo.svg"
         alt="Dermatologie Nazareth"
-        class:list={['h-12 w-auto transition-[filter] duration-300', overlay && 'logo-on-dark']}
+        class:list={[
+          'h-12 w-auto transition-[filter] duration-300',
+          overlay && 'logo-on-dark group-data-solid:filter-none',
+        ]}
         width="200"
         height="200"
       />
@@ -48,7 +58,7 @@ const bookingUrl = contact?.data.bookingUrl ?? '#';
     <ul class="hidden items-center gap-8 md:flex">
       {
         nav.map((item) => {
-          const active = current === item.href.replace(/\/$/, '');
+          const active = current === normalize(item.href);
           return (
             <li>
               <a
@@ -75,7 +85,7 @@ const bookingUrl = contact?.data.bookingUrl ?? '#';
         class:list={[
           'hidden rounded-md px-5 py-2 text-xs uppercase tracking-widest transition-colors sm:inline-block',
           overlay
-            ? 'border border-white/60 hover:bg-white hover:text-brand-green'
+            ? 'border border-white/60 hover:bg-white hover:text-brand-green group-data-solid:border-transparent group-data-solid:bg-brand-green group-data-solid:text-white group-data-solid:hover:bg-brand-green-dark group-data-solid:hover:text-white'
             : 'bg-brand-green text-white hover:bg-brand-green-dark',
         ]}
       >
@@ -102,13 +112,20 @@ const bookingUrl = contact?.data.bookingUrl ?? '#';
   <div id="mobile-menu" class="hidden border-t border-brand-pink-soft bg-white text-brand-green-dark md:hidden">
     <ul class="mx-auto max-w-6xl space-y-1 px-4 py-3 sm:px-6">
       {
-        nav.map((item) => (
-          <li>
-            <a href={item.href} class="block rounded-md px-2 py-2 hover:bg-brand-cream">
-              {item.label}
-            </a>
-          </li>
-        ))
+        nav.map((item) => {
+          const active = current === normalize(item.href);
+          return (
+            <li>
+              <a
+                href={item.href}
+                aria-current={active ? 'page' : undefined}
+                class:list={['block rounded-md px-2 py-2 hover:bg-brand-cream', active && 'bg-brand-cream']}
+              >
+                {item.label}
+              </a>
+            </li>
+          );
+        })
       }
       <li>
         <a
@@ -133,26 +150,11 @@ const bookingUrl = contact?.data.bookingUrl ?? '#';
     toggle.setAttribute('aria-expanded', String(open));
   });
 
-  // On hero-overlay pages, swap the header to solid once scrolled past the top.
+  // On hero-overlay pages, flag the header as solid once scrolled past the
+  // top; the data-solid: variants in the markup do the actual restyling.
   const header = document.getElementById('site-header');
   if (header?.hasAttribute('data-overlay')) {
-    const logo = header.querySelector('img');
-    const cta = header.querySelector('a[rel="noopener"]');
-    const onScroll = () => {
-      const solid = window.scrollY > 60;
-      header.classList.toggle('bg-transparent', !solid);
-      header.classList.toggle('text-white', !solid);
-      header.classList.toggle('bg-white/95', solid);
-      header.classList.toggle('backdrop-blur', solid);
-      header.classList.toggle('text-brand-green-dark', solid);
-      header.classList.toggle('shadow-sm', solid);
-      logo?.classList.toggle('logo-on-dark', !solid);
-      // CTA style flips between outlined-on-dark and filled-green.
-      cta?.classList.toggle('border', !solid);
-      cta?.classList.toggle('border-white/60', !solid);
-      cta?.classList.toggle('bg-brand-green', solid);
-      cta?.classList.toggle('text-white', solid);
-    };
+    const onScroll = () => header.toggleAttribute('data-solid', window.scrollY > 60);
     onScroll();
     window.addEventListener('scroll', onScroll, { passive: true });
   }

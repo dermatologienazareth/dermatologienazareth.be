@@ -7,7 +7,12 @@
     <title>Beheer · Dermatologie Nazareth</title>
   </head>
   <body>
-    <!-- Sveltia CMS — loaded from CDN. Configuration lives in config.yml. -->
-    <script src="https://unpkg.com/@sveltia/cms/dist/sveltia-cms.js" type="module"></script>
+    <!--
+      Sveltia CMS — loaded from CDN, pinned to an exact version so the admin
+      cannot silently pick up breaking or compromised releases. To update:
+      check https://github.com/sveltia/sveltia-cms/releases and bump the
+      version below. Configuration lives in config.yml.
+    -->
+    <script src="https://unpkg.com/@sveltia/cms@0.170.0/dist/sveltia-cms.js" type="module"></script>
   </body>
 </html>
