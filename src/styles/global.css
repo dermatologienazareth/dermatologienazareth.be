@@ -28,7 +28,9 @@
   font-display, etc.) so components stay declarative.
 */
 @theme {
-  --color-brand-green: #60675b;
+  /* Official brand colors per the huisstijl (De Witte Wasko, juli 2026):
+     Ebony Green #60665b, Cotton Rose #d7b0b2. */
+  --color-brand-green: #60665b;
   --color-brand-green-dark: #4b5147;
   --color-brand-pink: #d7b0b2;
   --color-brand-pink-soft: #f3e6e6;
@@ -128,11 +130,6 @@
     50% { transform: translateX(-50%) translateY(0.4rem); opacity: 1; }
   }
 
-  /* Render the (dark green, transparent-background) brand logo as solid white
-     over dark backgrounds. */
-  .logo-on-dark {
-    filter: brightness(0) invert(1);
-  }
 }
 
 @media (prefers-reduced-motion: reduce) {

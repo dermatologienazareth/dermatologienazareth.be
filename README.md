@@ -104,7 +104,7 @@ src/
   styles/global.css      # Tailwind 4 @theme brand tokens + @font-face + components
 public/
   admin/                 # Sveltia CMS (index.html + config.yml)
-  fonts/  assets/        # webfonts, logo (transparent png + opaque og jpg), images
+  fonts/  assets/        # webfonts, logo variants (green/white png, mark, og jpg), images
 ```
 
 ## Status

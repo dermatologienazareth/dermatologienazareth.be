@@ -38,16 +38,9 @@ const current = normalize(Astro.url.pathname);
 >
   <nav class="mx-auto flex max-w-6xl items-center justify-between gap-4 px-4 py-3 sm:px-6">
     <a href="/" class="flex items-center" aria-label="Dermatologie Nazareth — home">
-      <img
-        src="/assets/logo.png"
-        alt="Dermatologie Nazareth"
-        class:list={[
-          'h-12 w-auto transition-[filter] duration-300',
-          overlay && 'logo-on-dark group-data-solid:filter-none',
-        ]}
-        width="904"
-        height="434"
-      />
+      <!-- The monogram is pink in every brand variant, so the same image
+           works over the dark hero and on the solid white header. -->
+      <img src="/assets/logo-mark.png" alt="Dermatologie Nazareth" class="h-12 w-auto" width="216" height="232" />
     </a>
 
     <!-- Desktop navigation -->
