@@ -3,7 +3,8 @@
   Alternating full-width "spotlight" band: an image on one side and text on the
   other, with the sides flipping per section (the reference site's core layout
   device). When no image is supplied a calm brand-tinted panel is shown so the
-  rhythm holds before photos are added via the CMS.
+  rhythm holds before photos are added via the CMS; pass placeholder={false}
+  to leave the image side truly blank instead.
 */
 interface Props {
   eyebrow?: string;
@@ -14,6 +15,8 @@ interface Props {
   reverse?: boolean;
   /** Section background tone. */
   tone?: 'white' | 'cream' | 'pink';
+  /** Show the brand-tinted panel when there is no image. */
+  placeholder?: boolean;
   ctaLabel?: string;
   ctaHref?: string;
 }
@@ -25,6 +28,7 @@ const {
   imageAlt = '',
   reverse = false,
   tone = 'white',
+  placeholder = true,
   ctaLabel,
   ctaHref,
 } = Astro.props;
@@ -48,7 +52,7 @@ const bg = tone === 'cream' ? 'bg-brand-cream/60' : tone === 'pink' ? 'bg-brand-
             class="aspect-[4/5] w-full rounded-2xl object-cover shadow-sm sm:aspect-[4/3] md:aspect-[4/5]"
             loading="lazy"
           />
-        ) : (
+        ) : placeholder ? (
           <div
             class="flex aspect-[4/3] w-full items-center justify-center rounded-2xl bg-gradient-to-br from-brand-pink-soft to-brand-pink/40 md:aspect-[4/5]"
             aria-hidden="true"
@@ -57,7 +61,7 @@ const bg = tone === 'cream' ? 'bg-brand-cream/60' : tone === 'pink' ? 'bg-brand-
               <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909M3.75 19.5h16.5a1.5 1.5 0 001.5-1.5V6a1.5 1.5 0 00-1.5-1.5H3.75A1.5 1.5 0 002.25 6v12a1.5 1.5 0 001.5 1.5z" />
             </svg>
           </div>
-        )
+        ) : null
       }
     </div>
 

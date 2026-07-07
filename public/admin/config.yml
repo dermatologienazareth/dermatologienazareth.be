@@ -74,7 +74,7 @@ collections:
               - { name: eyebrow, label: "Bovenschrift", widget: string }
               - { name: title, label: "Titel", widget: string }
               - { name: text, label: "Tekst", widget: text, hint: "Een witregel begint een nieuwe alinea." }
-              - { name: image, label: "Foto", widget: image, required: false, hint: "Zonder foto wordt een rustig kleurvlak getoond." }
+              - { name: image, label: "Foto", widget: image, required: false, hint: "Zonder foto blijft deze plek voorlopig leeg." }
               - { name: ctaLabel, label: "Knoptekst", widget: string, hint: "De knop verwijst naar de pagina Behandelingen." }
           - name: treatmentsSection
             label: "Sectie: behandelingen"
