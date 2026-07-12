@@ -103,8 +103,8 @@ src/
     settings/            # contact singleton (JSON)
   layouts/BaseLayout.astro
   components/            # Header, Footer, Seo, Spotlight, TreatmentCard
-  lib/text.ts            # paragraphs() helper for multiline CMS text fields
-  pages/                 # index/behandelingen/praktijk/afspraak (built out); contact (stub)
+  lib/                   # text.ts (CMS text helpers), maps.ts (keyless Google Maps URLs)
+  pages/                 # index, behandelingen, praktijk, afspraak, contact
   styles/global.css      # Tailwind 4 @theme brand tokens + @font-face + components
 public/
   admin/                 # Sveltia CMS (index.html + config.yml)
@@ -121,7 +121,11 @@ layout): full-screen hero, alternating spotlight bands, a treatments grid
 (entries marked *Uitgelicht*), practical-info band, contact CTA. The
 `behandelingen` page lists all treatments; `praktijk` introduces the team as
 alternating spotlight bands (one per `team` entry — layout verified with one
-and with two members); `contact` is a styled stub with CMS-managed copy.
+and with two members); `contact` shows the contact details and a Google Maps
+embed that follows the CMS-managed address. The map uses Google's keyless
+(free) embed endpoint and, for GDPR, only loads after the visitor clicks
+"Kaart tonen" — no data goes to Google before that. A route planner was
+deliberately left out.
 
 Texts (8 treatments, doctor bio, practical info) are adapted from
 [dermatodepinte.be](https://www.dermatodepinte.be), per the project brief;
@@ -145,8 +149,7 @@ Implementation notes:
 
 ### Next (phase 2)
 
-- `behandelingen/[slug]` detail pages (bodies already in the CMS); `contact`
-  (map, route, hours).
+- `behandelingen/[slug]` detail pages (bodies already in the CMS).
 - Fill in via the CMS: the e-mail address (left blank — hidden everywhere
   until filled), `bookingUrl` once the online agenda exists, Nazareth-specific
   texts and photos.

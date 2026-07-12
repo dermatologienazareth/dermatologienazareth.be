@@ -166,7 +166,7 @@ collections:
         file: "src/content/pages/contact.json"
         fields:
           - { name: title, label: "Titel", widget: string }
-          - { name: intro, label: "Introtekst", widget: text, hint: "De adresgegevens en openingsuren op deze pagina komen uit Instellingen → Contactgegevens." }
+          - { name: intro, label: "Introtekst", widget: text, hint: "De adresgegevens en de kaart op deze pagina volgen automatisch het adres uit Instellingen → Contactgegevens." }
           - name: seo
             label: "Zoekmachines (SEO)"
             widget: object

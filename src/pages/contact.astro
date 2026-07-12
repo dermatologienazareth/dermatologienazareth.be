@@ -1,10 +1,14 @@
 ---
-// Stub page — full contact page (map, route, hours) follows in phase 2.
-// Copy comes from the `pages` collection (CMS: Pagina's → Pagina Contact);
-// the contact details themselves come from the settings singleton, the same
-// source the footer uses.
+/*
+  Contact page: copy from the `pages` collection (CMS: Pagina's → Pagina
+  Contact); the contact details and the map location come from the settings
+  singleton, the same source the footer uses. The Google Maps embed is
+  keyless (free) and, for privacy, only loads after the visitor clicks the
+  button — nothing is shared with Google before that.
+*/
 import { getEntry } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
+import { mapsEmbedUrl, mapsLinkUrl } from '../lib/maps';
 import { isEmail, paragraphs, telHref } from '../lib/text';
 
 const page = await getEntry('pages', 'contact');
@@ -19,7 +23,7 @@ const email = c?.email.trim() ?? '';
 ---
 
 <BaseLayout title={page.data.seo.title} description={page.data.seo.description}>
-  <section class="mx-auto max-w-3xl px-4 py-20 text-center sm:px-6">
+  <section class="mx-auto max-w-3xl px-4 pt-20 pb-12 text-center sm:px-6">
     <h1 class="text-3xl text-brand-green sm:text-4xl">{page.data.title}</h1>
     <div class="mx-auto mt-4 h-0.5 w-10 rounded-full bg-brand-pink" aria-hidden="true"></div>
     {
@@ -47,4 +51,54 @@ const email = c?.email.trim() ?? '';
       {paragraphs(page.data.intro).map((p) => <p class="text-sm text-brand-green-dark/60">{p}</p>)}
     </div>
   </section>
+
+  {
+    c && (
+      <section class="mx-auto max-w-3xl px-4 pb-20 sm:px-6">
+        <div
+          data-map-embed
+          data-src={mapsEmbedUrl(c)}
+          class="flex aspect-[4/3] w-full flex-col items-center justify-center gap-5 overflow-hidden rounded-2xl bg-gradient-to-br from-brand-pink-soft to-brand-pink/40 px-6 text-center sm:aspect-[16/9]"
+        >
+          <p class="max-w-md text-sm text-brand-green-dark/80">
+            De kaart komt van Google Maps. Bij het laden worden gegevens, zoals uw IP-adres, met
+            Google gedeeld.
+          </p>
+          <button
+            type="button"
+            class="rounded-md bg-brand-green px-7 py-3 text-xs uppercase tracking-widest text-white transition-colors hover:bg-brand-green-dark"
+          >
+            Kaart tonen
+          </button>
+        </div>
+        <p class="mt-4 text-center text-sm">
+          <a
+            href={mapsLinkUrl(c)}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="text-brand-green underline-offset-4 hover:underline"
+          >
+            Openen in Google Maps&nbsp;↗
+          </a>
+        </p>
+      </section>
+    )
+  }
 </BaseLayout>
+
+<script>
+  // Privacy: the Google iframe (and the data sharing it entails) only loads
+  // after this explicit visitor action.
+  const panel = document.querySelector<HTMLElement>('[data-map-embed]');
+  panel?.querySelector('button')?.addEventListener('click', () => {
+    if (!panel.dataset.src) return;
+    const iframe = document.createElement('iframe');
+    iframe.src = panel.dataset.src;
+    iframe.title = 'Kaart met de ligging van de praktijk';
+    iframe.className = 'h-full w-full border-0';
+    iframe.loading = 'lazy';
+    iframe.referrerPolicy = 'no-referrer-when-downgrade';
+    iframe.allowFullscreen = true;
+    panel.replaceChildren(iframe);
+  });
+</script>
