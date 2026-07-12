@@ -1,8 +1,4 @@
 {
-  "seo": {
-    "title": "Dermatologie Nazareth — Huidarts in Nazareth",
-    "description": "Dermatologie Nazareth biedt algemene en gespecialiseerde huidzorg in een rustige, professionele omgeving. Maak online een afspraak."
-  },
   "hero": {
     "title": "Dermatologie Nazareth",
     "tagline": "Deskundige huidzorg in een rustige, vertrouwde omgeving.",
@@ -35,7 +31,7 @@
     "items": [
       {
         "title": "Op afspraak",
-        "text": "Consultaties verlopen steeds op afspraak. Bel voor een afspraak naar 09 385 67 82 (praktijk De Pinte) en annuleer minstens 24 uur op voorhand indien u verhinderd bent."
+        "text": "Consultaties verlopen steeds op afspraak. Bel voor een afspraak naar 09 385 67 82 (praktijk De Pinte) en annuleer minstens 24 u op voorhand indien u verhinderd bent."
       },
       {
         "title": "Mee te nemen",
@@ -56,5 +52,9 @@
     "title": "Een afspraak maken?",
     "text": "Online een afspraak boeken is momenteel nog niet mogelijk. Voor een afspraak belt u naar praktijk Dermatologie De Pinte op {telefoon} — wij helpen u graag verder.",
     "ctaLabel": "Afspraak maken"
+  },
+  "seo": {
+    "title": "Dermatologie Nazareth — Huidarts in Nazareth",
+    "description": "Dermatologie Nazareth biedt algemene en gespecialiseerde huidzorg in een rustige, professionele omgeving. Maak online een afspraak."
   }
 }
