@@ -87,10 +87,14 @@ proxy server or login needed:
 - Build command: `npm run build` · Output dir: `dist` · branch `main`
   (Node version comes from the committed `.node-version` file)
 - Pure static — **no** `@astrojs/cloudflare` adapter needed.
-- **Before the client can edit in production**, the Sveltia GitHub backend needs
-  an OAuth proxy: deploy the [`sveltia/sveltia-cms-auth`](https://github.com/sveltia/sveltia-cms-auth)
-  Cloudflare Worker, register a GitHub OAuth App pointing at it, then set
-  `base_url` in `public/admin/config.yml`. (Not yet done.)
+- Production CMS sign-in goes through an OAuth proxy: the
+  [`sveltia/sveltia-cms-auth`](https://github.com/sveltia/sveltia-cms-auth)
+  Cloudflare Worker referenced by `base_url` in `public/admin/config.yml`.
+  The worker needs a GitHub OAuth App (callback `<worker>/callback`) and the
+  env vars `GITHUB_CLIENT_ID`, `GITHUB_CLIENT_SECRET` and `ALLOWED_DOMAINS`.
+  Editors sign in with a GitHub account that has **write access** to this
+  repo; technical users can bypass OAuth entirely via Sveltia's
+  "Sign In with Token" (a fine-grained PAT with *Contents: read/write*).
 
 ## Project structure
 

@@ -1,15 +1,16 @@
 # Sveltia CMS configuration.
 # Collections map 1:1 to the Astro Content Collections in src/content.config.ts.
 #
-# Auth: the GitHub backend needs an OAuth proxy because GitHub does not allow
-# browser-only OAuth. Before go-live, deploy the `sveltia/sveltia-cms-auth`
-# Cloudflare Worker, register a GitHub OAuth App pointing at it, then uncomment
-# and set `base_url` below. Local editing/preview of the UI works without this.
+# Auth: GitHub does not allow browser-only OAuth, so production sign-in goes
+# through the `sveltia/sveltia-cms-auth` Cloudflare Worker at `base_url`. The
+# worker holds the GitHub OAuth App credentials (env vars GITHUB_CLIENT_ID /
+# GITHUB_CLIENT_SECRET; ALLOWED_DOMAINS restricts which sites may use it).
+# Local editing via "Work with Local Repository" works without any of this.
 backend:
   name: github
   repo: dermatologienazareth/dermatologienazareth.be
   branch: main
-  # base_url: https://<your-oauth-worker>.workers.dev
+  base_url: https://sveltia-cms-auth.dermatologienazarethgithub.workers.dev
 
 # Repo path where uploads are committed vs. the public URL used on the site.
 media_folder: "public/assets/images"
