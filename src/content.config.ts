@@ -145,7 +145,9 @@ const settings = defineCollection({
     // Short qualifier shown next to the phone number (e.g. when bookings run
     // through another practice's line); empty once no longer needed.
     phoneNote: z.string().default(''),
-    email: z.string(),
+    // Empty while the practice mailbox is not yet active — the address is
+    // then shown nowhere (footer, contact page, structured data).
+    email: z.string().default(''),
     // Empty while online booking is unavailable — "Afspraak maken" buttons
     // then fall back to a tel: link to `phone`.
     bookingUrl: z.string(),

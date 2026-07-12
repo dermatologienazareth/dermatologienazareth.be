@@ -136,7 +136,7 @@ collections:
         file: "src/content/pages/praktijk.json"
         fields:
           - { name: title, label: "Titel", widget: string }
-          - { name: intro, label: "Introtekst", widget: text, hint: "Een witregel begint een nieuwe alinea." }
+          - { name: intro, label: "Introtekst", widget: text, hint: "Een witregel begint een nieuwe alinea. Onder deze tekst verschijnen automatisch alle teamleden (zie Team), elk met foto en bio." }
           - name: seo
             label: "Zoekmachines (SEO)"
             widget: object
@@ -197,7 +197,7 @@ collections:
   - name: team
     label: "Team"
     label_singular: "Teamlid"
-    description: "Het gekozen teamlid (zie Pagina's → Homepagina) staat op de homepagina; de volledige teampagina volgt in fase 2."
+    description: "Elk teamlid krijgt een eigen sectie op de pagina Praktijk; het gekozen teamlid (zie Pagina's → Homepagina) staat ook op de homepagina."
     folder: "src/content/team"
     create: true
     extension: md
@@ -209,7 +209,7 @@ collections:
       - { name: role, label: "Functie", widget: string }
       - { name: photo, label: "Foto", widget: image }
       - { name: order, label: "Volgorde", widget: number, value_type: int, default: 0, hint: "Laagste nummer eerst." }
-      - { name: body, label: "Bio", widget: markdown, hint: "Deze bio verschijnt ook op de homepagina wanneer dit teamlid daar gekozen is." }
+      - { name: body, label: "Bio", widget: markdown, hint: "Deze bio verschijnt op de pagina Praktijk, en ook op de homepagina wanneer dit teamlid daar gekozen is." }
 
   - name: settings
     label: "Instellingen"
@@ -231,7 +231,7 @@ collections:
           - { name: city, label: "Gemeente", widget: string }
           - { name: phone, label: "Telefoon", widget: string }
           - { name: phoneNote, label: "Toelichting bij telefoonnummer", widget: string, required: false, hint: "Korte vermelding naast het nummer, bv. “praktijk De Pinte” zolang afspraken via die lijn lopen. Laat leeg zodra niet meer nodig." }
-          - { name: email, label: "E-mail", widget: string, hint: "Getoond in de voettekst en op de pagina Contact. Nog niet actief? Zet er “TODO:” voor — het wordt dan als gewone tekst getoond, niet als klikbare link." }
+          - { name: email, label: "E-mail", widget: string, required: false, hint: "Getoond in de voettekst en op de pagina Contact. Laat leeg zolang er nog geen e-mailadres is — het wordt dan nergens getoond." }
           - { name: bookingUrl, label: "Afspraak-link (externe agenda)", widget: string, required: false, hint: "Laat leeg zolang online boeken niet mogelijk is — de pagina Afspraak toont dan enkel het telefoonnummer. Zodra de online agenda bestaat, vul hier de link in; de pagina Afspraak krijgt dan automatisch een knop “Online afspraak maken”." }
           - name: openingHours
             label: "Openingsuren"

@@ -1,22 +1,53 @@
 ---
-// Stub page — team and practice info follow in phase 2.
-// Copy comes from the `pages` collection (CMS: Pagina's → Pagina Praktijk).
-import { getEntry } from 'astro:content';
+/*
+  Practice page: intro copy from the `pages` collection (CMS: Pagina's →
+  Pagina Praktijk), followed by one spotlight band per team member — the same
+  presentation the homepage uses for the featured doctor. Photo, name, role
+  and bio come from the `team` collection, so adding a member in the CMS adds
+  a band here automatically; bands alternate photo side and background tone
+  so the page reads well at any team size.
+*/
+import { getCollection, getEntry, render } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
+import Spotlight from '../components/Spotlight.astro';
 import { paragraphs } from '../lib/text';
 
 const page = await getEntry('pages', 'praktijk');
 if (!page) {
   throw new Error('Ontbrekende inhoud: src/content/pages/praktijk.json');
 }
+
+// Order is CMS-managed ("Volgorde", lowest first); the name breaks ties so
+// the listing stays deterministic when members share the default order.
+const members = (await getCollection('team')).sort(
+  (a, b) => a.data.order - b.data.order || a.data.name.localeCompare(b.data.name, 'nl')
+);
+const team = await Promise.all(
+  members.map(async (member) => ({ member, Bio: (await render(member)).Content }))
+);
 ---
 
 <BaseLayout title={page.data.seo.title} description={page.data.seo.description}>
-  <section class="mx-auto max-w-3xl px-4 py-20 text-center sm:px-6">
+  <section class="mx-auto max-w-3xl px-4 pt-20 pb-12 text-center sm:px-6">
     <h1 class="text-3xl text-brand-green sm:text-4xl">{page.data.title}</h1>
     <div class="mx-auto mt-4 h-0.5 w-10 rounded-full bg-brand-pink" aria-hidden="true"></div>
     <div class="mt-4 space-y-4">
       {paragraphs(page.data.intro).map((p) => <p class="text-brand-green-dark/75">{p}</p>)}
     </div>
   </section>
+
+  {
+    team.map(({ member, Bio }, i) => (
+      <Spotlight
+        eyebrow={member.data.role}
+        title={member.data.name}
+        image={member.data.photo}
+        imageAlt={member.data.name}
+        tone={i % 2 === 0 ? 'pink' : 'white'}
+        reverse={i % 2 === 1}
+      >
+        <Bio />
+      </Spotlight>
+    ))
+  }
 </BaseLayout>

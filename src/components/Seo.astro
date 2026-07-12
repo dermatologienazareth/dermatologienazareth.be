@@ -5,6 +5,7 @@
   description; everything else derives from the site config.
 */
 import { getEntry } from 'astro:content';
+import { isEmail } from '../lib/text';
 
 interface Props {
   title: string;
@@ -21,6 +22,9 @@ const imageUrl = new URL(image, Astro.site).href;
 
 const contact = await getEntry('settings', 'contact');
 const c = contact?.data;
+// Structured data must stay machine-valid: omit the email property entirely
+// until the CMS holds a real address.
+const email = c?.email.trim() ?? '';
 
 const jsonLd = c
   ? {
@@ -29,7 +33,7 @@ const jsonLd = c
       name: c.practiceName,
       url: Astro.site?.href,
       telephone: c.phone,
-      email: c.email,
+      ...(isEmail(email) ? { email } : {}),
       address: {
         '@type': 'PostalAddress',
         streetAddress: c.addressLine,

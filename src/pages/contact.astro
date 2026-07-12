@@ -14,6 +14,8 @@ if (!page) {
 
 const contact = await getEntry('settings', 'contact');
 const c = contact?.data;
+// Blank while the practice mailbox is not yet active — the row is then hidden.
+const email = c?.email.trim() ?? '';
 ---
 
 <BaseLayout title={page.data.seo.title} description={page.data.seo.description}>
@@ -29,13 +31,15 @@ const c = contact?.data;
             <a href={telHref(c.phone)} class="hover:text-brand-green">{c.phone}</a>
             {c.phoneNote && <span class="text-brand-green-dark/60"> ({c.phoneNote})</span>}
           </p>
-          <p>
-            {isEmail(c.email) ? (
-              <a href={`mailto:${c.email}`} class="hover:text-brand-green">{c.email}</a>
-            ) : (
-              c.email
-            )}
-          </p>
+          {email && (
+            <p>
+              {isEmail(email) ? (
+                <a href={`mailto:${email}`} class="hover:text-brand-green">{email}</a>
+              ) : (
+                email
+              )}
+            </p>
+          )}
         </div>
       )
     }

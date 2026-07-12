@@ -1,11 +1,11 @@
 {
   "practiceName": "Dermatologie Nazareth",
-  "addressLine": "TODO: Straat en nummer",
+  "addressLine": "Drapstraat 90",
   "postalCode": "9810",
   "city": "Nazareth",
   "phone": "09 385 67 82",
   "phoneNote": "praktijk De Pinte",
-  "email": "TODO: info@dermatologienazareth.be",
+  "email": "",
   "bookingUrl": "",
   "openingHours": [
     { "day": "Maandag", "hours": "09:00 – 17:00" },

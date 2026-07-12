@@ -44,7 +44,9 @@ structure. The CMS is organized so it's clear where each text appears:
   a title + intro. Every page also has a collapsed *Zoekmachines (SEO)* group.
 - **Behandelingen** — one entry per treatment; shown as cards on
   `/behandelingen`, and on the homepage when *Uitgelicht* is checked.
-- **Team** — one entry per team member. The homepage "Uw huidarts" section
+- **Team** — one entry per team member; each gets its own photo + bio section
+  on `/praktijk` (sections alternate photo side and background tone
+  automatically as members are added). The homepage "Uw huidarts" section
   shows the member selected in *Pagina's → Homepagina* (name, photo **and bio**
   come from the team entry — single source of truth).
 - **Instellingen → Contactgegevens** — address, phone, e-mail, booking URL and
@@ -52,7 +54,9 @@ structure. The CMS is organized so it's clear where each text appears:
   "Afspraak maken" buttons navigate to `/afspraak`; that page shows the phone
   number (click-to-call) while `bookingUrl` is empty and switches to an online
   agenda button once it is filled. In texts, `{telefoon}` marks where the
-  clickable phone number goes.
+  clickable phone number goes. The e-mail field may be left empty — the
+  address is then shown nowhere (footer, contact page, structured data) until
+  it is filled in.
 - **Instellingen → Aankondiging (pop-up)** — site-wide announcement dialog
   (e.g. "Opening najaar 2026"): toggle it on/off and edit title/text. Visitors
   see it once per browser session; an edited message shows again.
@@ -100,7 +104,7 @@ src/
   layouts/BaseLayout.astro
   components/            # Header, Footer, Seo, Spotlight, TreatmentCard
   lib/text.ts            # paragraphs() helper for multiline CMS text fields
-  pages/                 # index/behandelingen/afspraak (built out); praktijk/contact (stubs)
+  pages/                 # index/behandelingen/praktijk/afspraak (built out); contact (stub)
   styles/global.css      # Tailwind 4 @theme brand tokens + @font-face + components
 public/
   admin/                 # Sveltia CMS (index.html + config.yml)
@@ -115,11 +119,13 @@ home page styled after the reference practice
 [dermatologielatem.be](https://dermatologielatem.be) (HTML5 UP "Stellar"
 layout): full-screen hero, alternating spotlight bands, a treatments grid
 (entries marked *Uitgelicht*), practical-info band, contact CTA. The
-`behandelingen` page lists all treatments; `praktijk` / `contact` are styled
-stubs with CMS-managed copy.
+`behandelingen` page lists all treatments; `praktijk` introduces the team as
+alternating spotlight bands (one per `team` entry — layout verified with one
+and with two members); `contact` is a styled stub with CMS-managed copy.
 
 Texts (8 treatments, doctor bio, practical info) are adapted from
-[dermatodepinte.be](https://www.dermatodepinte.be), per the project brief.
+[dermatodepinte.be](https://www.dermatodepinte.be), per the project brief;
+Dr. Borderé's bio is fact-checked against that site.
 Photos are a person-free selection from that site (only images without
 identifiable people; two show anonymous gloved hands / a skin close-up) —
 replace with the practice's own photos when available.
@@ -136,16 +142,14 @@ Implementation notes:
 - The overlay header's transparent→solid scroll behaviour is driven by a single
   `data-solid` attribute; all state styling is declarative
   (`data-solid:`/`group-data-solid:` Tailwind variants in `Header.astro`).
-- Content placeholders that still need real input are marked `TODO` in the CMS
-  content itself (`src/content/`).
 
 ### Next (phase 2)
 
-- `behandelingen/[slug]` detail pages (bodies already in the CMS); `praktijk`
-  (team grid); `contact` (map, route, hours).
-- Replace placeholders via the CMS: contact data (address and e-mail are
-  `TODO`; a non-e-mail value renders unlinked), `bookingUrl` once the online
-  agenda exists, Nazareth-specific texts and photos.
+- `behandelingen/[slug]` detail pages (bodies already in the CMS); `contact`
+  (map, route, hours).
+- Fill in via the CMS: the e-mail address (left blank — hidden everywhere
+  until filled), `bookingUrl` once the online agenda exists, Nazareth-specific
+  texts and photos.
 - Deploy + wire Sveltia OAuth (see above).
 - Confirm a **Gotham Rounded webfont licence** (commercial font) or swap the font
   vars in `src/styles/global.css` for a free match (e.g. Nunito / Quicksand).

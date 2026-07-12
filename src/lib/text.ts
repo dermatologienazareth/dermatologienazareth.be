@@ -18,9 +18,9 @@ export function telHref(phone: string): string {
 }
 
 /**
- * True when the value looks like a real e-mail address. Placeholder values
- * (e.g. "TODO: …" while the mailbox is not active yet) then render as plain
- * text instead of a broken mailto: link.
+ * True when the value looks like a real e-mail address. Non-empty values that
+ * are not addresses render as plain text instead of a broken mailto: link
+ * (so a typo stays visible) and are omitted from the structured data.
  */
 export function isEmail(value: string): boolean {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);

@@ -10,6 +10,8 @@ haar artsendiploma in 2007. Daarna specialiseerde ze zich in de
 dermatologie-venereologie op de dienst Huidziekten van het UZ Gent, waar ze in
 2011 afstudeerde.
 
+Sindsdien is ze werkzaam in de privépraktijk in De Pinte en in AZ Alma Eeklo.
+
 Ze behandelt alle aspecten van de dermatologie, met een bijzondere interesse
 voor naevi (moedervlekken) en acne. Kleine chirurgische ingrepen en
 laserbehandelingen voert ze zelf uit in de praktijk.
