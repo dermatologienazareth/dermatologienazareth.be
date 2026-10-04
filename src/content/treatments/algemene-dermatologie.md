@@ -8,7 +8,7 @@ image: /assets/images/behandelingen/algemene-dermatologie.jpg
 
 Bij algemene dermatologie onderzoeken en behandelen we aandoeningen van de
 huid, het haar en de nagels, evenals seksueel overdraagbare aandoeningen. Denk
-aan eczeem, psoriasis, acne, rosacea, schimmelinfecties en andere
+aan eczeem, psoriasis, acné, rosacea, schimmelinfecties en andere
 veelvoorkomende huidproblemen.
 
 De diagnose gebeurt op basis van een gesprek (anamnese) en dermatoscopie, waar
