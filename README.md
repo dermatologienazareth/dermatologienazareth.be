@@ -84,6 +84,12 @@ proxy server or login needed:
 
 ## Deploy (Cloudflare Pages)
 
+- **Live at https://dermatologienazareth.be** — DNS on Cloudflare (domain
+  registration stays at GoDaddy), apex + `www` are custom domains of the
+  Pages project, `www` 301-redirects to the apex via a Cloudflare Redirect
+  Rule. The domain sends no e-mail, so anti-spoofing TXT records are in
+  place (`v=spf1 -all`, DMARC `p=reject`) — replace them when a mailbox
+  arrives.
 - Build command: `npm run build` · Output dir: `dist` · branch `main`
   (Node version comes from the committed `.node-version` file)
 - Pure static — **no** `@astrojs/cloudflare` adapter needed.
@@ -157,7 +163,6 @@ Implementation notes:
 - Fill in via the CMS: the e-mail address (left blank — hidden everywhere
   until filled), `bookingUrl` once the online agenda exists, Nazareth-specific
   texts and photos.
-- Deploy + wire Sveltia OAuth (see above).
 - Confirm a **Gotham Rounded webfont licence** (commercial font) or swap the font
   vars in `src/styles/global.css` for a free match (e.g. Nunito / Quicksand).
 - SEO / accessibility / Lighthouse pass.
