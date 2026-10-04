@@ -6,5 +6,5 @@ featured: true
 image: /assets/images/behandelingen/lichttherapie.jpg
 ---
 
-In onze praktijk is lichtbehandeling met zowel UVB als PUVA (UVA) mogelijk,
+In onze praktijk te De Pinte is lichtbehandeling met zowel UVB als PUVA (UVA) mogelijk,
 afhankelijk van de aandoening — onder meer bij eczeem, psoriasis en lichen.
