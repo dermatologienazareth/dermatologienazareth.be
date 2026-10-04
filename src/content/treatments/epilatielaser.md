@@ -7,7 +7,7 @@ image: /assets/images/behandelingen/epilatielaser.jpg
 ---
 
 Door middel van een Alexandrite–Nd:YAG-laser kunnen ongewenste haartjes op
-het lichaam permanent verwijderd worden.
+het lichaam permanent verwijderd worden. Deze behandeling is enkel mogelijk in de praktijk in De Pinte. 
 
 Niet elk haartype of fototype komt in aanmerking voor een laserbehandeling —
-vraag ernaar tijdens uw consultatie.
+vraag gerust meer informatie tijdens uw consultatie.
