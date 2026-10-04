@@ -8,11 +8,25 @@
   "email": "",
   "bookingUrl": "",
   "openingHours": [
-    { "day": "Maandag", "hours": "09:00 – 17:00" },
-    { "day": "Dinsdag", "hours": "09:00 – 17:00" },
-    { "day": "Woensdag", "hours": "09:00 – 12:00" },
-    { "day": "Donderdag", "hours": "09:00 – 17:00" },
-    { "day": "Vrijdag", "hours": "09:00 – 16:00" },
-    { "day": "Zaterdag – Zondag", "hours": "Gesloten" }
+    {
+      "day": "Maandag",
+      "hours": "09:00 – 17:00"
+    },
+    {
+      "day": "Woensdag",
+      "hours": "09:00 – 12:00"
+    },
+    {
+      "day": "Donderdag",
+      "hours": "09:00 – 17:00"
+    },
+    {
+      "day": "Vrijdag",
+      "hours": "09:00 – 16:00"
+    },
+    {
+      "day": "Zaterdag – Zondag",
+      "hours": "Gesloten"
+    }
   ]
 }
