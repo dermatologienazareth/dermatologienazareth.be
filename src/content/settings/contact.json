@@ -10,11 +10,11 @@
   "openingHours": [
     {
       "day": "Maandag",
-      "hours": "09:00 – 17:00"
+      "hours": "09:00 – 18:30"
     },
     {
       "day": "Dinsdag",
-      "hours": "09:00 - 17:00"
+      "hours": "consultatie te De Pinte"
     },
     {
       "day": "Woensdag",
@@ -22,11 +22,11 @@
     },
     {
       "day": "Donderdag",
-      "hours": "09:00 – 17:00"
+      "hours": "11:00 – 17:00"
     },
     {
       "day": "Vrijdag",
-      "hours": "09:00 – 16:00"
+      "hours": "13:30 – 18:00"
     },
     {
       "day": "Zaterdag - Zondag",
