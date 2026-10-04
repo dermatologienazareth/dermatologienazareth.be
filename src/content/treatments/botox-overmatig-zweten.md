@@ -1,5 +1,5 @@
 ---
-title: Botox tegen overmatig zweten
+title: Botulinetoxine tegen overmatig zweten
 summary: Behandeling van overmatig zweten ter hoogte van de oksels met botulinetoxine.
 order: 8
 featured: false
