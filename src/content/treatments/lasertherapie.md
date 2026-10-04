@@ -1,6 +1,6 @@
 ---
 title: Lasertherapie (vaatlaser)
-summary: Snelle en veilige verwijdering van couperose, spatadertjes, bruine vlekjes en goedaardige huidaanwasjes.
+summary: Snelle en veilige verwijdering van couperose, spatadertjes, bruine vlekjes en goedaardige huidaanwasjes. Voorlopig enkel mogelijk in de praktijk in De Pinte.
 order: 3
 featured: true
 image: /assets/images/behandelingen/lasertherapie.jpg
