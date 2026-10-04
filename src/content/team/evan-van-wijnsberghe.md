@@ -1,5 +1,5 @@
 ---
-name: Evan Van Wijnsberghe
+name: Eva Van Wijnsberghe
 role: Praktijkassistente
 photo: /assets/images/pasted-image-1791126161281.png
 order: 2
