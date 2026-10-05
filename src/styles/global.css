@@ -61,8 +61,8 @@
 
 /*
   Component classes for the design language adapted from the reference practice
-  (HTML5 UP "Stellar"): a full-viewport banner hero with a rule-flanked title
-  and a scroll cue, plus uppercase, letter-spaced section headings.
+  (HTML5 UP "Stellar"): a full-viewport banner hero with a scroll cue, plus
+  uppercase, letter-spaced section headings.
 */
 @layer components {
   /* Uppercase eyebrow label above a heading. */
@@ -91,26 +91,6 @@
     position: relative;
     overflow: hidden;
   }
-
-  /* Hero title flanked by thin horizontal rules (the signature Stellar look). */
-  .banner-title {
-    position: relative;
-    display: inline-block;
-    text-transform: uppercase;
-    letter-spacing: 0.18em;
-    padding: 0.55em 0.2em;
-  }
-  .banner-title::before,
-  .banner-title::after {
-    content: "";
-    position: absolute;
-    left: 0;
-    right: 0;
-    height: 2px;
-    background: rgba(255, 255, 255, 0.55);
-  }
-  .banner-title::before { top: 0; }
-  .banner-title::after { bottom: 0; }
 
   /* Animated scroll-down cue at the bottom of the hero. */
   .scroll-cue {

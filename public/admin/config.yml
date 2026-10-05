@@ -40,9 +40,8 @@ collections:
           - name: hero
             label: "Openingsbeeld"
             widget: object
-            hint: "Het schermvullende beeld bovenaan de homepagina."
+            hint: "Het schermvullende beeld bovenaan de homepagina, met het logo."
             fields:
-              - { name: title, label: "Titel", widget: string }
               - { name: tagline, label: "Ondertitel", widget: string }
               - { name: ctaLabel, label: "Knoptekst", widget: string, hint: "De knop verwijst naar de pagina Afspraak." }
           - name: intro

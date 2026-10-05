@@ -35,7 +35,9 @@ npm run preview
 ## Content management (Sveltia CMS)
 
 **All copy on the site is CMS-managed** — the `.astro` components only provide
-structure. The CMS is organized so it's clear where each text appears:
+structure. The one exception is the homepage heading: it is the hero logo,
+named by its alt text "Dermatologie Nazareth" in `src/pages/index.astro`.
+The CMS is organized so it's clear where each text appears:
 
 - **Pagina's** — one entry per page. The *Homepagina* entry has one field group
   per visual section, in page order (openingsbeeld, welkomsttekst, sectie
@@ -118,8 +120,15 @@ src/
   styles/global.css      # Tailwind 4 @theme brand tokens + @font-face + components
 public/
   admin/                 # Sveltia CMS (index.html + config.yml)
-  fonts/  assets/        # webfonts, logo variants (green/white png, mark, og jpg), images
+  fonts/  assets/        # webfonts, logo variants (white svg, green/white png, mark, og jpg), images
 ```
+
+`logo-white.svg` (hero) and `logo-white.png` (footer) are the same artwork;
+replace both when the logo changes. The SVG is converted from
+`assets/logos/LOGO_DermaNaz_ZIPfile/LOGO_DermaNaz_WIT&ROZE_PDF.pdf` with
+`pdftocairo -svg`, cropped to the artwork, its pink set to the brand
+`#d7b0b2` (the PDF's CMYK pink converts to an off `#d09da6`), and minified
+with `svgo --precision 2`.
 
 ## Status
 

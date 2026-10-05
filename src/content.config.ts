@@ -51,7 +51,6 @@ const homePage = defineCollection({
     id: z.string(),
     seo,
     hero: z.object({
-      title: z.string(),
       tagline: z.string(),
       ctaLabel: z.string(),
     }),
