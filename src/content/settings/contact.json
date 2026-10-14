@@ -6,7 +6,7 @@
   "phone": "09 385 67 82",
   "phoneNote": "praktijk De Pinte",
   "email": "",
-  "bookingUrl": "",
+  "bookingUrl": "https://agenda.mediris.be/appointments?agenda=d770d4f1-441a-46ec-a167-fa1a9562556f&careprovider=dd563376-1f95-4bca-8ff2-d3a68c0641d7&location=c9886494-68dc-4e22-97f2-c21b965da0be",
   "openingHours": [
     {
       "day": "Maandag",
